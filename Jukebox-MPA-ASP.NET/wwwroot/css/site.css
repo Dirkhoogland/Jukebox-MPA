@@ -16,3 +16,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.songlist{
+    height:100px;
+    width:100px;
+
+}
+.songlistbutton{
+    float:right;
+    margin-top:75px;
+    height:25px;
+    width:30px;
+}

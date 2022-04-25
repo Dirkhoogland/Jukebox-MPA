@@ -33,5 +33,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        // Models.Database.SchoolContext schoolContext;
+        
     }
 }
