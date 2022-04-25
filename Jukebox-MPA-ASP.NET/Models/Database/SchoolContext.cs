@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,6 +8,8 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
 {
     public partial class SchoolContext : DbContext
     {
+        
+        
         public SchoolContext()
         {
         }
