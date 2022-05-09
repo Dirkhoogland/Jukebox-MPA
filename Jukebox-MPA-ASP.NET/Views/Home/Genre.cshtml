@@ -4,13 +4,15 @@
     
 }
 
-<h1>Genre</h1>
-
-@*@foreach(Songs in Jukebox_MPA_ASP.NET.HomeController ) 
+<h1>Songs</h1>
+@*CustomerModel customer in (CustomerModel[])ViewBag.Customers*@
+@foreach(var songs in ViewBag.item) 
 {
  <div class = "songlist">
- <p>Song name @{....}</p>
- <p>Genre @{...}</p>
- <button> Add to play list</Button>
+ <p>Song name @{@songs.Song}</p>
+ <p>Genre @{@songs.Genre}</p>
+ <button asp-controller="Home" asp-action="Addtoplaylist"  > Add to play list</Button>
  </div>
-}*@
+}
+
+@*// onclick = "Atpl( id, playlist);"*@
