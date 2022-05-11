@@ -33,8 +33,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         public IActionResult Genre()
         {
-            //var item = _context.Songs.SelectMany(i => i.Id > 0);
-            //var item = _context.Songs.FirstOrDefault(i => i.Id > 0);
+
             var item = _context.Songs.Where(s => s.Id > 0);
             ViewBag.item = item;
             return View(item);
