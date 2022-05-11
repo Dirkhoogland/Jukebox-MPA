@@ -20,7 +20,6 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
         public virtual DbSet<Users> Users { get; set; } = null!;
 
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Genres>(entity =>
@@ -43,6 +42,10 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
                     .IsUnicode(false);
 
                 entity.Property(e => e.Song)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.User)
                     .HasMaxLength(255)
                     .IsUnicode(false);
             });
