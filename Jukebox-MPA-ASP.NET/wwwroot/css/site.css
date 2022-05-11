@@ -28,3 +28,10 @@ body {
     height:25px;
     width:30px;
 }
+
+.songlist{
+    width:200px;
+    height:140px;
+    background-color:lightblue;
+    margin-top:10px;
+}
