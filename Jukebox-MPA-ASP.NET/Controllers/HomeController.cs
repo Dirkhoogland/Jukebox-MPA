@@ -44,29 +44,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        //public Task Atpl(int Id, string playlist)
-        //{
-        //    var song = _context.Songs.FirstOrDefault(i => i.Id == Id);
-        //    playlistadd = playlist;
-        //    if (song == null)
-        //    {
-
-        //    }
-        //    else
-        //    {
-        //        _context.Playlists.Add(new Playlists()
-        //        {
-        //            Song = song.Song,
-        //            Id = song.Id,
-        //            Playlist = playlistadd,
-
-
-
-        //        });
-
-                
-        //    }
             
         }
         

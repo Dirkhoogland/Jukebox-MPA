@@ -8,5 +8,6 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
         public int Id { get; set; }
         public string? Song { get; set; }
         public string? Genre { get; set; }
+        public string? Author { get; set; }
     }
 }
