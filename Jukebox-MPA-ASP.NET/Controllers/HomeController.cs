@@ -22,7 +22,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
         public IActionResult Index()
         {
-            DataSeed();
+            //DataSeed();
             return View();
         }
 
@@ -34,11 +34,18 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         public IActionResult Genre()
         {
-
-            var item = _context.Songs.Where(s => s.Id > 0);
-            ViewBag.item = item;
-            return View(item);
+            List<Models.Database.Songs> items = _context.Songs.Where(i => i.Id >= 0).ToList();
+            ViewBag.item = items;
+            return View();
         }
+
+        //public IActionResult Addtoplaylist(var front)
+        //{ var song = _context.Songs.Where(i => i.Id = front.Id );
+        //    _context.Playlists.Add(new Models.Database.Playlists() { })
+
+            
+        //    return View(Genre());   
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

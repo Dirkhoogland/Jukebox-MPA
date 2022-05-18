@@ -6,12 +6,12 @@
 
 <h1>Songs</h1>
 
-@foreach(var songs in ViewBag.item) 
+@foreach(var front in ViewBag.item) 
 {
  <div class = "songlist">
- <p>Song name @{@songs.Song}</p>
- <p>Genre @{@songs.Genre}</p>
- <button asp-controller="Home" asp-action="Addtoplaylist"  > Add to play list</Button>
+ <p>Song name @{@front.Name}</p>
+ <p>Genre @{@front.Genre}</p>
+ <button asp-controller="Home" asp-action = "Addtoplaylist(@{@front.id})" > Add to play list</Button>
  <button asp-controller="Home" asp-action="">Add to list</button>
  </div>
 }
