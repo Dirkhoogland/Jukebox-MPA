@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Jukebox_MPA_ASP.NET.Models.Database
 {
-    public partial class Savedsongs
+    public partial class Queue
     {
         public int Id { get; set; }
         public int? Song { get; set; }

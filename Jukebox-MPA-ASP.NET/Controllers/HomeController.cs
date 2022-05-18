@@ -22,12 +22,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
         public IActionResult Index()
         {
+            DataSeed();
             return View();
         }
 
         public IActionResult Lists()
         {
-            
+
             return View();
         }
 
@@ -44,9 +45,33 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-            
+
+
+        private void DataSeed()
+        {
+            try
+            {
+                _context.Genres.Add(new Models.Database.Genres() { Genre = "Pop" });
+                _context.Genres.Add(new Models.Database.Genres() { Genre = "Rock" });
+                _context.Genres.Add(new Models.Database.Genres() { Genre = "Metal" });
+                _context.Genres.Add(new Models.Database.Genres() { Genre = "test" });
+                _context.Genres.Add(new Models.Database.Genres() { Genre = "classical" });
+                _context.Songs.Add(new Models.Database.Songs() { Genre = "Pop", Author = "TestAuthor", Name = "Test", Duration = 3 });
+                _context.Songs.Add(new Models.Database.Songs() { Genre = "Rock", Author = "TestAuthor1", Name = "Testsong", Duration = 5 });
+                _context.Songs.Add(new Models.Database.Songs() { Genre = "Metal", Author = "TestAuthor2", Name = "Testsong2", Duration = 2 });
+                _context.Songs.Add(new Models.Database.Songs() { Genre = "test", Author = "TestAuthor4", Name = "Testsong21", Duration = 6 });
+                _context.Songs.Add(new Models.Database.Songs() { Genre = "classical", Author = "TestAuthor5", Name = "Testsong23", Duration = 7 });
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                bool error = true;
+            }
         }
-        
 
 
     }
+}
+
+

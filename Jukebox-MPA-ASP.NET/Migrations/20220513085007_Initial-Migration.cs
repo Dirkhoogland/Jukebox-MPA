@@ -38,7 +38,7 @@ namespace Jukebox_MPA_ASP.NET.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Savedsongs",
+                name: "Queue",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -57,7 +57,7 @@ namespace Jukebox_MPA_ASP.NET.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Song = table.Column<string>(type: "int", nullable: true),
+                    Duration = table.Column<string>(type: "int", nullable: true),
                     Genre = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true),
                     Author = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true),
                     Name = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true)
@@ -76,11 +76,14 @@ namespace Jukebox_MPA_ASP.NET.Migrations
             migrationBuilder.DropTable(
                 name: "Playlists");
 
-            migrationBuilder.DropTable(
-                name: "Savedsongs");
+            //migrationBuilder.DropTable(
+            //    name: "Queue");
 
             migrationBuilder.DropTable(
                 name: "Songs");
+
         }
     }
 }
+// EntityFrameworkCore\Update-Database
+// Scaffold-DbContext "Data Source = LAPTOP-6OVEOOKP; Initial Catalog = School2; Integrated Security = True;Pooling=True;MultipleActiveResultSets=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models\Database -NoPluralize -Context DatabaseContext -force

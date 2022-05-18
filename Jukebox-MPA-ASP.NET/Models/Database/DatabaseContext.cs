@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -8,30 +7,27 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
 {
     public partial class DatabaseContext : DbContext
     {
-        
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
         }
-        
+
         public virtual DbSet<Genres> Genres { get; set; } = null!;
         public virtual DbSet<Playlists> Playlists { get; set; } = null!;
-        public virtual DbSet<Savedsongs> Savedsongs { get; set; } = null!;
+        public virtual DbSet<Queue> Queue { get; set; } = null!;
         public virtual DbSet<Songs> Songs { get; set; } = null!;
+        public virtual DbSet<Users> Users { get; set; } = null!;
 
 
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
             modelBuilder.Entity<Genres>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Genre)
-                    .HasMaxLength(250)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
             });
 
@@ -54,13 +50,13 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Savedsongs>(entity =>
+            modelBuilder.Entity<Queue>(entity =>
             {
                 entity.HasNoKey();
 
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Song)
+                entity.Property(e => e.Songname)
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
@@ -81,25 +77,19 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Song)
+                entity.Property(e => e.Name)
                     .HasMaxLength(250)
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Songs>().HasData(
-            new Songs { Id = 1,  Author = "test", Genre = "Test 1", Song = "testsong" });
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-
-
-
-
-
-            //var testSong = this.Songs.FirstOrDefault(b => b.Url == "http://test.com");
-
-            //this.Songs.Add(new Songs { Id = 2, Author = "test", Genre = "Test 1", Song = "testsong" });
-
-
-            //this.SaveChanges();
+                entity.Property(e => e.Name)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }
