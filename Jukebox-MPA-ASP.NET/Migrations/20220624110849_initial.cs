@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Jukebox_MPA_ASP.NET.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,12 +15,11 @@ namespace Jukebox_MPA_ASP.NET.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GenreId = table.Column<int>(type: "int", nullable: false),
-                    Genre = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    Genre = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.ID);
-                    
                 });
 
             migrationBuilder.CreateTable(
@@ -43,7 +42,7 @@ namespace Jukebox_MPA_ASP.NET.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Song = table.Column<string>(type: "int", nullable: true),
+                    Song = table.Column<int>(type: "int", nullable: true),
                     User = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Songname = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                 },
@@ -57,7 +56,7 @@ namespace Jukebox_MPA_ASP.NET.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Duration = table.Column<string>(type: "int", nullable: true),
+                    Duration = table.Column<int>(type: "int", nullable: true),
                     Genre = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true),
                     Author = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true),
                     Name = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true)
@@ -65,7 +64,20 @@ namespace Jukebox_MPA_ASP.NET.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Songs", x => x.ID);
-                }) ;  
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "varchar(250)", unicode: false, maxLength: 250, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.ID);
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -76,14 +88,14 @@ namespace Jukebox_MPA_ASP.NET.Migrations
             migrationBuilder.DropTable(
                 name: "Playlists");
 
-            //migrationBuilder.DropTable(
-            //    name: "Queue");
+            migrationBuilder.DropTable(
+                name: "Queue");
 
             migrationBuilder.DropTable(
                 name: "Songs");
 
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }
-// EntityFrameworkCore\Update-Database
-// Scaffold-DbContext "Data Source = LAPTOP-6OVEOOKP; Initial Catalog = School2; Integrated Security = True;Pooling=True;MultipleActiveResultSets=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models\Database -NoPluralize -Context DatabaseContext -force

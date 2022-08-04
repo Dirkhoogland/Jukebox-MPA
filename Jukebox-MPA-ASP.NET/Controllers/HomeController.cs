@@ -5,23 +5,43 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Configuration;
-
-
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 namespace Jukebox_MPA_ASP.NET.Controllers
 {
+
+#pragma warning disable CS8601 // Possible null reference assignment.
+#pragma warning disable CS8604 // Possible null reference argument.
     [BindProperties(SupportsGet = true)]
     public class HomeController : Controller
     {
+        public string? inputName { get; set; }
+        public int? Id { get; set; }
+
+        public const string SessionKeyName = "_User";
+        public const string SessionKeyId = "_Id";
+
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
+        private List<Songs> test;
+
         public HomeController(ILogger<HomeController> logger, DatabaseContext context)
         {
             _logger = logger;
             _context = context;
         }
+        
+        //public int[] Idsqueue = new int[];
+        public List<Songs> Items { get; set; }
+
+        public List<Songs> Queuelist { get; set; }
+
+        public List<Users?> Users { get; set; }
         public IActionResult Index()
         {
+            
+
+
             //DataSeed();
             return View();
         }
@@ -31,21 +51,44 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             return View();
         }
-
+        [HttpGet]
         public IActionResult Genre()
         {
-            List<Models.Database.Songs> items = _context.Songs.Where(i => i.Id >= 0).ToList();
-            ViewBag.item = items;
+            Items = _context.Songs.Where(m => m.Id >= 0).ToList();
+            ViewBag.item = Items;
+
+            Debug.WriteLine(Queuelist);
             return View();
         }
+        
 
-        //public IActionResult Addtoplaylist(var front)
-        //{ var song = _context.Songs.Where(i => i.Id = front.Id );
-        //    _context.Playlists.Add(new Models.Database.Playlists() { })
+        [HttpPost]
+        public IActionResult addtoqueue([FromBody] int Id)
+        {
 
-            
-        //    return View(Genre());   
-        //}
+
+
+
+            Debug.WriteLine(Queuelist);
+            var queueliststring = HttpContext.Session.GetString("QueueListsession");
+            //JObject json = JObject.Parse(queueliststring);
+           
+            if (queueliststring == null) { }
+            else
+            {
+                var test2 = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
+                //Queuelist = JsonSerializer.Deserialize<List<Songs>>(queueliststring);
+                Queuelist = test2;
+            }
+            test = _context.Songs.Where(i => i.Id == Id).ToList();
+            Queuelist.AddRange(test);
+            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
+
+            Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
+
+
+            return View(Genre());
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -68,16 +111,20 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 _context.Songs.Add(new Models.Database.Songs() { Genre = "Metal", Author = "TestAuthor2", Name = "Testsong2", Duration = 2 });
                 _context.Songs.Add(new Models.Database.Songs() { Genre = "test", Author = "TestAuthor4", Name = "Testsong21", Duration = 6 });
                 _context.Songs.Add(new Models.Database.Songs() { Genre = "classical", Author = "TestAuthor5", Name = "Testsong23", Duration = 7 });
-
+                _context.Users.Add(new Models.Database.Users() { Name = "Dirk" });
+                _context.Users.Add(new Models.Database.Users() { Name = "Test1" });
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                bool error = true;
+
             }
         }
 
 
+
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 }
 

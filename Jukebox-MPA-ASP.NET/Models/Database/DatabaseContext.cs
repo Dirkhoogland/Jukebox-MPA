@@ -84,10 +84,10 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
 
             modelBuilder.Entity<Users>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(255)
+                    .HasMaxLength(250)
                     .IsUnicode(false);
             });
 

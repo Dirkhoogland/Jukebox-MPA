@@ -11,7 +11,7 @@
  <div class = "songlist">
  <p>Song name @{@front.Name}</p>
  <p>Genre @{@front.Genre}</p>
- <button asp-controller="Home" asp-action = "Addtoplaylist(@{@front.id})" > Add to play list</Button>
- <button asp-controller="Home" asp-action="">Add to list</button>
+ <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)"> 
+
  </div>
 }
