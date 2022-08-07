@@ -57,6 +57,11 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             Items = _context.Songs.Where(m => m.Id >= 0).ToList();
             ViewBag.item = Items;
 
+            if(Queuelist.Count >= 1)
+            {
+                foreach(var id in Queuelist.)
+            }
+
             Debug.WriteLine(Queuelist);
             return View();
         }
@@ -86,11 +91,11 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
 
-
-            return View(Genre());
+            Genre();
+            return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 1000, Location = ResponseCacheLocation.None, NoStore = false)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
