@@ -45,7 +45,18 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Jukebox 
+            
+            
+            @if (ViewBag.songlist != null)
+            {
+                <input type = "Button" value="Duration" onclick="Duration(@ViewBag.songlist)" />
+                @foreach (var item in ViewBag.songlist)
+                {
+                   <p>Song @{@item.Name}</p>
+                    <p>Dur @{@item.Duration}</p>
+                    <input type = "Button" value="Remove" onclick="Removefromqueue(@item.Id)">
+               }
+            }
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
