@@ -32,7 +32,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
         
         //public int[] Idsqueue = new int[];
-        public List<Songs> Items { get; set; }
+        
 
         public List<Songs> Queuelist { get; set; }
 
@@ -70,41 +70,43 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         [HttpGet]
         public IActionResult Genre()
         {
-            Items = _context.Songs.Where(m => m.Id >= 0).ToList();
+            List<Genres> genresf = _context.Genres.Where(m => m.Id >= 0).ToList();
+            List<Songs> Items = _context.Songs.Where(m => m.Id >= 0).ToList();
             ViewBag.item = Items;
+            ViewBag.genre = genresf;
 
 
             return View();
         }
-        
 
-        [HttpPost]
-        public IActionResult addtoqueue([FromBody] int Id)
-        {
-            
-
-
-            Debug.WriteLine(Queuelist);
-            var queueliststring = HttpContext.Session.GetString("QueueListsession");
-            //JObject json = JObject.Parse(queueliststring);
-           
-            if (queueliststring == null) { }
-            else
+            [HttpPost]
+            public IActionResult addtoqueue([FromBody] int Id)
             {
-                var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
-                //Queuelist = JsonSerializer.Deserialize<List<Songs>>(queueliststring);
-                Queuelist = newsong;
+                    
+
+
+                Debug.WriteLine(Queuelist);
+                var queueliststring = HttpContext.Session.GetString("QueueListsession");
+                //JObject json = JObject.Parse(queueliststring);
+
+                if (queueliststring == null) { }
+                else
+                {
+                    var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
+                    //Queuelist = JsonSerializer.Deserialize<List<Songs>>(queueliststring);
+                    Queuelist = newsong;
+                }
+                dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
+                Queuelist.AddRange(dbsong);
+                HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
+
+                Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
+
+
+                return View(Genre());
             }
-            dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
-            Queuelist.AddRange(dbsong);
-            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
 
-            Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
-
-            
-            return View(Genre());
-        }
-
+        
         [ResponseCache(Duration = 1000, Location = ResponseCacheLocation.None, NoStore = false)]
         public IActionResult Error()
         {

@@ -5,13 +5,20 @@
 }
 
 <h1>Songs</h1>
-
-@foreach(var front in ViewBag.item) 
-{
- <div class = "songlist">
- <p>Song name @{@front.Name}</p>
- <p>Genre @{@front.Genre}</p>
- <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)"> 
-
- </div>
-}
+    @foreach (var genres in ViewBag.genre)
+    {
+        <p>@{@genres.Genre }</p>
+        
+        @foreach(var front in ViewBag.item) 
+        {
+        if(genres.Genre == front.Genre)
+        {
+            <div class = "songlist">
+            <p>Song name @{@front.Name}</p>
+            
+            <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
+            <input type="button" value="Details" onclick="Detailsshow(@front)">
+            </div>
+        }
+        }
+    }
