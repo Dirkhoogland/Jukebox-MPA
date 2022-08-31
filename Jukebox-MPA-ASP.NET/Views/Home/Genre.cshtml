@@ -3,22 +3,33 @@
     ViewData["Title"] = "Genre-Songs";
     
 }
+<div id = "Genre-buttons">
+  @foreach( var genres in ViewBag.genre)
+  {
+    <input type = "Button" value="@{@genres.Genre}" onclick="specificgenre('@genres.Genre')"> 
+  }
+</div>
 
 <h1>Songs</h1>
     @foreach (var genres in ViewBag.genre)
-    {
+
+    {   <Div class="Genres" id = "@genres.Genre , Genres">
+        <div id ="Genresnaam">
         <p>@{@genres.Genre }</p>
-        
+        </div>
         @foreach(var front in ViewBag.item) 
         {
         if(genres.Genre == front.Genre)
         {
             <div class = "songlist">
             <p>Song name @{@front.Name}</p>
+
+            @{int duration = front.Duration;}
+                <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
+                <input type="button" value="Details" onclick="Detailsshow(@duration , @{@front.Author})">
+                </div>
             
-            <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
-            <input type="button" value="Details" onclick="Detailsshow(@front)">
-            </div>
         }
         }
+        </Div>
     }
