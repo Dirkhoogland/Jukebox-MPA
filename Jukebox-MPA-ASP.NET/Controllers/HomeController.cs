@@ -15,6 +15,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
     [BindProperties(SupportsGet = true)]
     public class HomeController : Controller
     {
+
         public string? inputName { get; set; }
         public int? Id { get; set; }
 
@@ -23,25 +24,34 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
-        private List<Songs> dbsong;
+        private readonly SessionController sessioncontroller;
+
 
         public HomeController(ILogger<HomeController> logger, DatabaseContext context)
         {
             _logger = logger;
             _context = context;
+            sessioncontroller = new SessionController(_logger, _context);
         }
-        
-        //public int[] Idsqueue = new int[];
+        int i = 0;
 
         public List<Users> Users { get; set; }
 
         public List<Songs> emptylist { get; set; }
 
-        
-        
+        public void firstload(int i)
+        {
+            sessioncontroller.load();
+
+            i++;
+        }
+
         public IActionResult Index()
         {
-            EditPlaylistsController.FillLocalPlaylist(emptylist);
+            if(i == 0)
+            {
+             firstload(i);
+            }
 
 
 
@@ -55,17 +65,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         public IActionResult Lists()
         {
 
-            var test = HttpContext.Session.GetString("QueueListsession");
-            if (test == null)
-            {
-                ViewBag.songlist = emptylist;
-            }
-            else
-            {
-                var sessionlistdes = HttpContext.Session.GetString("QueueListsession");
-                emptylist = JsonConvert.DeserializeObject<List<Songs>>(sessionlistdes);
-                ViewBag.songlist = emptylist.ToList();
-            }
+            EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
+            controller.FillLocalPlaylist(emptylist);
 
 
 
@@ -74,17 +75,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         [HttpGet]
         public IActionResult Genre()
         {
-            var test = HttpContext.Session.GetString("QueueListsession");
-            if (test == null)
-            {
-                ViewBag.songlist = emptylist;
-            }
-            else
-            {
-                var sessionlistdes = HttpContext.Session.GetString("QueueListsession");
-                emptylist = JsonConvert.DeserializeObject<List<Songs>>(sessionlistdes);
-                ViewBag.songlist = emptylist.ToList();
-            }
+
 
             List<Genres> genresf = _context.Genres.Where(m => m.Id >= 0).ToList();
             List<Songs> Items = _context.Songs.Where(m => m.Id >= 0).ToList();
@@ -94,6 +85,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             return View();
         }
+
 
         //[HttpPost]
         //public IActionResult addtoqueue([FromBody] int Id)

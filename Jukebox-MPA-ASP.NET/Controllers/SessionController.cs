@@ -1,27 +1,47 @@
-﻿using Jukebox_MPA_ASP.NET.Models;
-using Jukebox_MPA_ASP.NET.Models.Database;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Configuration;
+﻿using Jukebox_MPA_ASP.NET.Models.Database;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Jukebox_MPA_ASP.NET.Controllers
 {
-    
-    public class SessionController : Controller
+
+    public partial class SessionController : Controller
     {
-        public SessionController(ILogger<HomeController> logger)
-        {
-            
+        private readonly ILogger<HomeController> _logger;
+        private readonly DatabaseContext _context;
+
+        public SessionController(ILogger<HomeController> logger, DatabaseContext context)
+        {   
+            _logger = logger;
+            _context = context;
+
         }
-        public static string GetQueuelistpublic()
+        public void load()
         {
+            string firstload = "empty";
+            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(firstload));
+        }
+
+        public string GetQueuelistpublic()
+        {
+
             var QueueListSession = HttpContext.Session.GetString("QueueListsession");
+
+
+
 
             return (QueueListSession);
         }
+
+        public void UpdateQueue(List<Songs> Queuelist)
+        {
+            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
+        }
+
+        //public string getlist()
+        //{
+        //    var QueueList = HttpContext.Session.GetString("QueueListsession");
+        //    return (QueueList);
+        //}
     }
 }
