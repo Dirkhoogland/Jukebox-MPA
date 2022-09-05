@@ -13,6 +13,7 @@ function addtoqueue(Id)
         success: function () { console.log(Id);},
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
+    location.reload();
 };
 
 function Detailsshow(Duration)
@@ -22,9 +23,25 @@ function Detailsshow(Duration)
 
 }
 
-function specificgenre(Genre, Author)
-{
+function specificgenre(Genre)
+{   
     console.log(Genre)
+}
+
+function Login(Id)
+{
+    console.log(Id)
+    
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/User/login',
+        data: JSON.stringify(Id),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
+    });
+    location.reload();
 }
 
 //function addtoqueue(Id)

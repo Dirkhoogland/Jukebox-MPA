@@ -12,110 +12,101 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
 #pragma warning disable CS8601 // Possible null reference assignment.
 #pragma warning disable CS8604 // Possible null reference argument.
-    [BindProperties(SupportsGet = true)]
-    public class HomeController : Controller
-    {
-
-        public string? inputName { get; set; }
-        public int? Id { get; set; }
-
-        public const string SessionKeyName = "_User";
-        public const string SessionKeyId = "_Id";
-
-        private readonly ILogger<HomeController> _logger;
-        private readonly DatabaseContext _context;
-        private readonly SessionController sessioncontroller;
-
-
-        public HomeController(ILogger<HomeController> logger, DatabaseContext context)
+        [BindProperties(SupportsGet = true)]
+        public class HomeController : Controller
         {
-            _logger = logger;
-            _context = context;
-            sessioncontroller = new SessionController(_logger, _context);
-        }
-        int i = 0;
 
-        public List<Users> Users { get; set; }
+            public string? inputName { get; set; }
+            public int? Id { get; set; }
 
-        public List<Songs> emptylist { get; set; }
-
-        public void firstload(int i)
-        {
-            sessioncontroller.load();
-
-            i++;
-        }
-
-        public IActionResult Index()
-        {
-            if(i == 0)
+            private readonly ILogger<HomeController> _logger;
+            private readonly DatabaseContext _context;
+            private readonly DatabasecController1 data;
+            
+            public HomeController(ILogger<HomeController> logger, DatabaseContext context)
             {
-             firstload(i);
+                _logger = logger;
+                _context = context;
+                data = new DatabasecController1(_logger, _context);
+            
+            }
+            int i = 0;
+
+            
+
+            public List<Songs> emptylist { get; set; }
+
+            public IActionResult Index()
+            {
+            var user = HttpContext.Session.GetString("User");
+
+                ViewBag.user = user;
+
+                List<Users> Users = data.getusers();
+                ViewBag.Users = Users;
+                
+                //DataSeed();
+                return View();
+            }
+
+            public IActionResult Lists()
+            {
+
+                EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
+                var playlistvar = HttpContext.Session.GetString("QueueListsession");
+                controller.FillLocalPlaylist(emptylist, playlistvar);
+                ViewBag.songlist = emptylist;
+            
+
+
+                return View();
+            }
+            [HttpGet]
+            public IActionResult Genre()
+            {
+
+
+
+                List<Genres> genresf = data.GetGenres();
+                List<Songs> Items = data.GetSongs();
+                ViewBag.item = Items;
+                ViewBag.genre = genresf;
+
+
+                return View();
             }
 
 
 
-            Users = _context.Users.Where(m => m.Id >= 0).ToList();
-            ViewBag.Users = Users;
-            ViewBag.songlist = emptylist;
-            //DataSeed();
-            return View();
-        }
-
-        public IActionResult Lists()
-        {
-
-            EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
-            controller.FillLocalPlaylist(emptylist);
+            //[HttpPost]
+            //public IActionResult addtoqueue([FromBody] int Id)
+            //{
 
 
 
-            return View();
-        }
-        [HttpGet]
-        public IActionResult Genre()
-        {
+            //    Debug.WriteLine(Queuelist);
+            //    var queueliststring = HttpContext.Session.GetString("QueueListsession");
+            //    
+
+            //    if (queueliststring == null) { }
+            //    else
+            //    {
+            //        var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
+            //        //Queuelist = JsonSerializer.Deserialize<List<Songs>>(queueliststring);
+            //        Queuelist = newsong;
+            //    }
+            //    dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
+            //    Queuelist.AddRange(dbsong);
+            //    HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
+
+            //    Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
 
 
-            List<Genres> genresf = _context.Genres.Where(m => m.Id >= 0).ToList();
-            List<Songs> Items = _context.Songs.Where(m => m.Id >= 0).ToList();
-            ViewBag.item = Items;
-            ViewBag.genre = genresf;
+            //    return View(Genre());
+            //}
 
 
-            return View();
-        }
-
-
-        //[HttpPost]
-        //public IActionResult addtoqueue([FromBody] int Id)
-        //{
-
-
-
-        //    Debug.WriteLine(Queuelist);
-        //    var queueliststring = HttpContext.Session.GetString("QueueListsession");
-        //    //JObject json = JObject.Parse(queueliststring);
-
-        //    if (queueliststring == null) { }
-        //    else
-        //    {
-        //        var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
-        //        //Queuelist = JsonSerializer.Deserialize<List<Songs>>(queueliststring);
-        //        Queuelist = newsong;
-        //    }
-        //    dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
-        //    Queuelist.AddRange(dbsong);
-        //    HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
-
-        //    Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
-
-
-        //    return View(Genre());
-        //}
-
-
-        [ResponseCache(Duration = 1000, Location = ResponseCacheLocation.None, NoStore = false)]
+            [ResponseCache(Duration = 1000, Location = ResponseCacheLocation.None, NoStore = false)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

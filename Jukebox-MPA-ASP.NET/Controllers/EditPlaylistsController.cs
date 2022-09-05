@@ -1,7 +1,17 @@
 ﻿using Jukebox_MPA_ASP.NET.Models.Database;
+using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using Jukebox_MPA_ASP.NET.Models;
+using Jukebox_MPA_ASP.NET.Models.Database;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
+using System.Diagnostics;
+using System.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace Jukebox_MPA_ASP.NET.Controllers
 {
@@ -10,52 +20,51 @@ namespace Jukebox_MPA_ASP.NET.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
-        private readonly SessionController sessioncontroller;
+        private readonly HomeController homeController;
+        public List<Songs> queueList { get; set; }
 
-        public HomeController homeController;
-        
-        public EditPlaylistsController(ILogger<HomeController> logger, DatabaseContext context) 
+        public EditPlaylistsController(ILogger<HomeController> logger, DatabaseContext context)
         {
             _logger = logger;
             _context = context;
-            sessioncontroller = new SessionController(_logger, _context);
-
-
             homeController = new HomeController(_logger, _context);
-            //sessions = new Sessions(_httpContextAccessor);
+            queueList = new List<Songs>();
         }
-        private List<Songs> Queuelist;
+
         
 
-        [HttpPost]
+
+    [HttpPost]
         public void UpdateLocalPlaylist([FromBody] int Id)
         {
             List<Songs> dbsong;
+            
+            var queueliststring = HttpContext.Session.GetString("QueueListsession");
 
-            var queueliststring = sessioncontroller.GetQueuelistpublic();
-
-
-            if (queueliststring == null) { }
-            else
+            Debug.WriteLine(queueList);
+            if (queueliststring == null) { 
+            
+            } else
             {
                 var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
 
-                Queuelist = newsong;
+                queueList = newsong;
             }
             dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
-            Queuelist.AddRange(dbsong);
+            queueList.AddRange(dbsong);
 
 
-            sessioncontroller.UpdateQueue(Queuelist);
+            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(queueList));
+            Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
 
+
+            
 
         }
 
-        public List<Songs> FillLocalPlaylist(List<Songs> emptylist)
+        public List<Songs> FillLocalPlaylist(List<Songs> emptylist,string playlist)
         {
 
-
-            var playlist = sessioncontroller.GetQueuelistpublic();
             if (playlist == null)
             {
 
@@ -63,8 +72,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
             else
             {
-                var sessionlistdes = sessioncontroller.GetQueuelistpublic();
-                emptylist = JsonConvert.DeserializeObject<List<Songs>>(sessionlistdes);
+                
+                emptylist = JsonConvert.DeserializeObject<List<Songs>>(playlist);
                 emptylist.ToList();
                 return (emptylist);
             }
