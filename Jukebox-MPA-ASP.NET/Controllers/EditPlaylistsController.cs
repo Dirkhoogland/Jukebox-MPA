@@ -38,17 +38,29 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         public void UpdateLocalPlaylist([FromBody] int Id)
         {
             List<Songs> dbsong;
+            List<Songs> oldlist;
+
+            oldlist = null;
             
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
 
-            Debug.WriteLine(queueList);
-            if (queueliststring == null) { 
-            
-            } else
+
+            if (queueliststring == null)
+            {
+
+            }
+            else
             {
                 var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
 
-                queueList = newsong;
+                 oldlist = newsong;
+            }
+            if (oldlist != null)
+            {
+                foreach (var song in oldlist)
+                {
+                    queueList.Add(song);
+                }
             }
             dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
             queueList.AddRange(dbsong);
@@ -57,8 +69,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(queueList));
             Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
 
-
-            
 
         }
 

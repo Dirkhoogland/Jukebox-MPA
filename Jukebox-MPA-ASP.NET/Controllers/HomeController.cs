@@ -54,7 +54,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
                 EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
                 var playlistvar = HttpContext.Session.GetString("QueueListsession");
-                controller.FillLocalPlaylist(emptylist, playlistvar);
+                emptylist = controller.FillLocalPlaylist(emptylist, playlistvar);
                 ViewBag.songlist = emptylist;
             
 
