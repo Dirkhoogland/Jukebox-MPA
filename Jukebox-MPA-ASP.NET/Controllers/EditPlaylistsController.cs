@@ -90,6 +90,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         }
 
-
+        [HttpPost]
+        public void UploadLocalPlaylist([FromBody] string userf)
+        {
+            var queuelistupload = HttpContext.Session.GetString("QueueListsession");
+            List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queuelistupload);
+            var userdes = HttpContext.Session.GetString("User");
+            var user = JsonConvert.DeserializeObject(userdes);
+        }
     }
 }

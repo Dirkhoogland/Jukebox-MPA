@@ -9,6 +9,7 @@
 <div class="Listingbot">
     @if (ViewBag.songlist != null)
     {
+           <input type="Button" value="Saveplaylist" onclick="save(@ViewBag.user)" />
         <input type="Button" value="Duration" onclick="Duration(@ViewBag.songlist)" />
         @foreach (var item in ViewBag.songlist)
         {

@@ -26,7 +26,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         }
         
-        
+        // user related functions
         //gets user to set into session as logged in
         public List<Users> getuser(int Id)
         {           
@@ -60,9 +60,15 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 _context.SaveChanges();
             }
         }
+        //----------------------------------------------------
+        //playlist related functions
 
 
 
+
+
+        //------------------------------------------
+        //get functions
         // gets songs for view
         public List<Songs> GetSongs()
         {

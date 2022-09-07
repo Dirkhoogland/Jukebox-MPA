@@ -38,9 +38,9 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             [HttpGet]
             public IActionResult Index()
             {
-            var user = HttpContext.Session.GetString("User");
-
-                ViewBag.user = user;
+            var userdes = HttpContext.Session.GetString("User");
+            var user = JsonConvert.DeserializeObject(userdes);
+            ViewBag.user = user;
 
                 List<Users> Users = data.getusers();
                 ViewBag.Users = Users;
@@ -51,8 +51,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             [HttpGet]
             public IActionResult Lists()
             {
-            var user = HttpContext.Session.GetString("User");
-
+            var userdes = HttpContext.Session.GetString("User");
+            var user = JsonConvert.DeserializeObject(userdes);
             ViewBag.user = user;
             EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
                 var playlistvar = HttpContext.Session.GetString("QueueListsession");
@@ -66,8 +66,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             [HttpGet]
             public IActionResult Genre()
             {
-            var user = HttpContext.Session.GetString("User");
-
+            var userdes = HttpContext.Session.GetString("User");
+            var user = JsonConvert.DeserializeObject(userdes);
             ViewBag.user = user;
 
 
