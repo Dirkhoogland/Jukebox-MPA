@@ -63,7 +63,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         //----------------------------------------------------
         //playlist related functions
 
-
+        public void uploadlist(string user, List<Songs> songslist, string playlistname)
+        {
+            foreach(var item in songslist)
+            {
+                _context.Playlists.Add(new Models.Database.Playlists() {Song = item.Name, User = user, Playlist = playlistname });
+            }
+        }
 
 
 

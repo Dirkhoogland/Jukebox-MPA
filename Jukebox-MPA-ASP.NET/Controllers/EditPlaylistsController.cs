@@ -21,6 +21,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
         private readonly HomeController homeController;
+        private readonly DatabasecController1 data;
         public List<Songs> queueList { get; set; }
 
         public EditPlaylistsController(ILogger<HomeController> logger, DatabaseContext context)
@@ -29,6 +30,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             _context = context;
             homeController = new HomeController(_logger, _context);
             queueList = new List<Songs>();
+            data = new DatabasecController1(_logger, _context);
         }
 
         
@@ -91,12 +93,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
 
         [HttpPost]
-        public void UploadLocalPlaylist([FromBody] string userf)
+        public void UploadLocalPlaylist([FromBody] string playlistname)
         {
             var queuelistupload = HttpContext.Session.GetString("QueueListsession");
             List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queuelistupload);
             var userdes = HttpContext.Session.GetString("User");
-            var user = JsonConvert.DeserializeObject(userdes);
+            string user = (string)JsonConvert.DeserializeObject(userdes);
+            data.uploadlist(user, list, playlistname);
         }
     }
 }

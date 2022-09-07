@@ -54,12 +54,12 @@ function addtoqueue(Id)
     location.reload();
 };
 function save(user)
-{
+{ var name = prompt("Playlist name")
     $.ajax({
         type: "Post",
         dataType: "Json",
         url: '/EditPlaylists/uploadLocalPlaylist',
-        data: JSON.stringify(user),
+        data: JSON.stringify(name),
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) {console.log(a); console.log(b); console.log(c);}
