@@ -18,15 +18,16 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             homeController = new HomeController(_logger, _context);
             data = new DatabasecController1(_logger, _context); 
         }
+        
+        public string user { get; set; }
         [HttpPost]
         public void Login([FromBody] int Id)
         {
             List<Users> currentuser;
-            
-            currentuser = data.getuser(Id);
-           string User = currentuser[0].Name;
-            HttpContext.Session.SetString("User", JsonConvert.SerializeObject(User));
-            var test = 0;
+             currentuser = data.getuser(Id);
+             user = currentuser[0].Name;
+             HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
+             var test = 0;
         }
 
         [HttpPost]

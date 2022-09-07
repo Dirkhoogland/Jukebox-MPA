@@ -1,20 +1,23 @@
-﻿var userinputj = document.getElementById(userinput).value;
+﻿var userinput = document.getElementById(userinput);
+
 
 function Newuser()
 {
-    console.log(username)
     
+    console.log(username)
+    var userinputj = document.getElementById(userinput).value;
     $.ajax({
         type: "Post",
         dataType: "Json",
         url: '/User/Newuser',
-        data: JSON.stringify(userinputj),
+        data: JSON.stringify(userinputj.innerHTML),
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    /*location.reload();*/
+    location.reload();
 }
+
 
 function addtoqueue(Id)
 {    
@@ -47,7 +50,7 @@ function specificgenre(Genre)
 function Login(Id)
 {
     console.log(Id)
-    
+   
     $.ajax({
         type: "Post",
         dataType: "Json",
@@ -57,7 +60,7 @@ function Login(Id)
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    location.reload();
+    
 }
 
 //function addtoqueue(Id)

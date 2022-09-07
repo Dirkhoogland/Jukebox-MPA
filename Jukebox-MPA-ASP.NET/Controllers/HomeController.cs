@@ -35,7 +35,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             
 
             public List<Songs> emptylist { get; set; }
-
+            [HttpGet]
             public IActionResult Index()
             {
             var user = HttpContext.Session.GetString("User");
@@ -48,11 +48,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 //DataSeed();
                 return View();
             }
-
+            [HttpGet]
             public IActionResult Lists()
             {
+            var user = HttpContext.Session.GetString("User");
 
-                EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
+            ViewBag.user = user;
+            EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
                 var playlistvar = HttpContext.Session.GetString("QueueListsession");
                 emptylist = controller.FillLocalPlaylist(emptylist, playlistvar);
                 ViewBag.songlist = emptylist;
@@ -64,10 +66,12 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             [HttpGet]
             public IActionResult Genre()
             {
+            var user = HttpContext.Session.GetString("User");
+
+            ViewBag.user = user;
 
 
-
-                List<Genres> genresf = data.GetGenres();
+            List<Genres> genresf = data.GetGenres();
                 List<Songs> Items = data.GetSongs();
                 ViewBag.item = Items;
                 ViewBag.genre = genresf;
