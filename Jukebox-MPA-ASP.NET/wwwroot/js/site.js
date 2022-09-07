@@ -1,4 +1,20 @@
-﻿ 
+﻿var userinputj = document.getElementById(userinput).value;
+
+function Newuser()
+{
+    console.log(username)
+    
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/User/Newuser',
+        data: JSON.stringify(userinputj),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
+    });
+    /*location.reload();*/
+}
 
 function addtoqueue(Id)
 {    

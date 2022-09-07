@@ -29,8 +29,16 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             var test = 0;
         }
 
+        [HttpPost]
+        public void Newuser([FromBody] string Name)
+        {
+            data.createuser(Name);
+
+        }
+
+        
 
     }
 
-  
+
 }

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 
 namespace Jukebox_MPA_ASP.NET.Controllers
@@ -36,6 +37,32 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return _context.Users.Where(m => m.Id >= 0).ToList();
         }
+        public void createuser(string name)
+        {
+           List<Users> namecheck = _context.Users.Where(m => m.Id >= 0).ToList();
+
+            foreach(var users in namecheck)
+            {
+                if(users.Name == name)
+                {
+                    name = "duplicate";
+                }
+                else { }
+            }
+
+            if (name == "duplicate")
+            {
+
+            }
+            else
+            {
+                _context.Users.Add(new Models.Database.Users() { Name = name });
+                _context.SaveChanges();
+            }
+        }
+
+
+
         // gets songs for view
         public List<Songs> GetSongs()
         {
@@ -46,5 +73,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return _context.Genres.Where(m => m.Id >= 0).ToList();
         }
+
     }
 }
