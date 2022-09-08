@@ -35,20 +35,26 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             
 
             public List<Songs> emptylist { get; set; }
-            [HttpGet]
+            
             public IActionResult Index()
             {
-            var userdes = HttpContext.Session.GetString("User");
-            var user = JsonConvert.DeserializeObject(userdes);
-            ViewBag.user = user;
 
+            
+            var userdes = HttpContext.Session.GetString("User");
+            
+            if (userdes != null)
+            {
+                var user = JsonConvert.DeserializeObject(userdes);
+                ViewBag.user = user;
+
+            }
                 List<Users> Users = data.getusers();
                 ViewBag.Users = Users;
                 
                 //DataSeed();
                 return View();
             }
-            [HttpGet]
+            
             public IActionResult Lists()
             {
             var userdes = HttpContext.Session.GetString("User");
@@ -63,7 +69,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
                 return View();
             }
-            [HttpGet]
+            
             public IActionResult Genre()
             {
             var userdes = HttpContext.Session.GetString("User");
@@ -80,34 +86,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 return View();
             }
 
-
-
-            //[HttpPost]
-            //public IActionResult addtoqueue([FromBody] int Id)
-            //{
-
-
-
-            //    Debug.WriteLine(Queuelist);
-            //    var queueliststring = HttpContext.Session.GetString("QueueListsession");
-            //    
-
-            //    if (queueliststring == null) { }
-            //    else
-            //    {
-            //        var newsong = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
-            //        //Queuelist = JsonSerializer.Deserialize<List<Songs>>(queueliststring);
-            //        Queuelist = newsong;
-            //    }
-            //    dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
-            //    Queuelist.AddRange(dbsong);
-            //    HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(Queuelist));
-
-            //    Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
-
-
-            //    return View(Genre());
-            //}
 
 
             [ResponseCache(Duration = 1000, Location = ResponseCacheLocation.None, NoStore = false)]

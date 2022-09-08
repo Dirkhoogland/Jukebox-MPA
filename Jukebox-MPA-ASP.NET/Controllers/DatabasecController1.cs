@@ -68,6 +68,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             foreach(var item in songslist)
             {
                 _context.Playlists.Add(new Models.Database.Playlists() {Song = item.Name, User = user, Playlist = playlistname });
+                _context.SaveChanges();
             }
         }
 

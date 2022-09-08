@@ -6,17 +6,17 @@ function Newuser()
 {
     
     console.log(username)
-    var userinputj = document.getElementById(userinput).value;
+    var userinputj = prompt("New user name")
     $.ajax({
         type: "Post",
         dataType: "Json",
         url: '/User/Newuser',
-        data: JSON.stringify(userinputj.innerHTML),
+        data: JSON.stringify(userinputj),
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    location.reload();
+    
 }
 
 function Login(Id)
@@ -33,7 +33,7 @@ function Login(Id)
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
 
-    location.reload();
+    
 
 }
 /*-----------------------------------------------------------------------------------------------------*/
@@ -51,7 +51,7 @@ function addtoqueue(Id)
         success: function () { console.log(Id);},
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    location.reload();
+    
 };
 function save(user)
 { var name = prompt("Playlist name")

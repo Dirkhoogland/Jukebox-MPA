@@ -27,7 +27,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
              currentuser = data.getuser(Id);
              user = currentuser[0].Name;
              HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
-             var test = 0;
+            var test = 1;
         }
 
         [HttpPost]
