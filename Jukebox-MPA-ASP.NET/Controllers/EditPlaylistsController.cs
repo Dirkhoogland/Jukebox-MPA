@@ -35,7 +35,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         
 
-
+    // updates local playlist
     [HttpPost]
         public void UpdateLocalPlaylist([FromBody] int Id)
         {
@@ -73,7 +73,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
 
         }
-
+        // fills the local playlist
         public List<Songs> FillLocalPlaylist(List<Songs> emptylist,string playlist)
         {
 
@@ -91,7 +91,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
 
         }
-
+        // uploads local playlist to database
         [HttpPost]
         public void UploadLocalPlaylist([FromBody] string playlistname)
         {
@@ -101,5 +101,25 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             string user = (string)JsonConvert.DeserializeObject(userdes);
             data.uploadlist(user, list, playlistname);
         }
-    }
+        // calculates duration of local playlist
+        public int duration(List<Songs> playlist)
+        {
+            int Newtotal = 0;
+            int total = 0;
+
+            List<Songs> list = playlist;
+            foreach (var duration in list)
+            {
+                Newtotal = (int)(total + duration.Duration);
+            }
+            return Newtotal;
+        }
+
+        [HttpPost]
+        public void Deletesongfromplaylist([FromBody] string songname)
+        {
+            data.deletesong(songname);
+        }
+       }
+
 }

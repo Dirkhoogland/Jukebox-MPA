@@ -8,6 +8,7 @@ using System.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Security.Policy;
 
 
 namespace Jukebox_MPA_ASP.NET.Controllers
@@ -60,6 +61,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 _context.SaveChanges();
             }
         }
+        // deletes user
+        public void deleteuser(int Id)
+        {
+            List<Users> removefunct = _context.Users.Where(a => a.Id == Id).ToList();
+            _context.Users.Remove(removefunct[0]);
+            _context.SaveChanges();
+        }
         //----------------------------------------------------
         //playlist related functions
 
@@ -72,6 +80,20 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
         }
 
+        public List<Playlists> getplaylists(string user) 
+        {
+            List<Playlists> playlists = _context.Playlists.Where(m => m.User == user).ToList();
+
+
+            return playlists;
+        }
+        // deletes song from saved playlist
+        public void deletesong(string songname)
+        {
+            List<Playlists> removefunct = _context.Playlists.Where(a => a.Song == songname).ToList();
+            _context.Playlists.Remove(removefunct[0]);
+            _context.SaveChanges();
+        }
 
 
         //------------------------------------------

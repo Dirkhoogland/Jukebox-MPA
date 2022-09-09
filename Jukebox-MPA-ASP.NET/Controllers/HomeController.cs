@@ -58,12 +58,30 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             public IActionResult Lists()
             {
             var userdes = HttpContext.Session.GetString("User");
-            var user = JsonConvert.DeserializeObject(userdes);
-            ViewBag.user = user;
+            
+            if (userdes != null)
+            {
+                var user = JsonConvert.DeserializeObject(userdes);
+                ViewBag.user = user;
+                string userstring = user.ToString();
+                List<Playlists> playlists = data.getplaylists(userstring);
+                ViewBag.playlists = playlists;
+
+            }
+            else
+            {
+                ViewBag.user = "Login";
+            }
             EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
                 var playlistvar = HttpContext.Session.GetString("QueueListsession");
                 emptylist = controller.FillLocalPlaylist(emptylist, playlistvar);
+            if (playlistvar != null)
+            {
+                int totalduration = controller.duration(JsonConvert.DeserializeObject<List<Songs>>(playlistvar));
+                ViewBag.duration = totalduration;
+            }
                 ViewBag.songlist = emptylist;
+                
             
 
 
@@ -73,10 +91,16 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             public IActionResult Genre()
             {
             var userdes = HttpContext.Session.GetString("User");
-            var user = JsonConvert.DeserializeObject(userdes);
-            ViewBag.user = user;
+            if (userdes != null)
+            {
+                var user = JsonConvert.DeserializeObject(userdes);
+                ViewBag.user = user;
 
-
+            }
+            else
+            {
+                ViewBag.user = "Login";
+            }
             List<Genres> genresf = data.GetGenres();
                 List<Songs> Items = data.GetSongs();
                 ViewBag.item = Items;

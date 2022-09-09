@@ -4,13 +4,27 @@
 <div class="Centerlisting">
 <h1>@ViewData["Title"]</h1>
 <h1>jouw lijsten</h1>
-
+@if(ViewBag.playlists != null){
+ @foreach(var playlist in ViewBag.playlists)
+ {
+     <div>
+      <p>@{@playlist.Playlist}</p>
+     </div>
+     <div>
+         @foreach(var song in playlist)
+         {
+             <p>@{@song.Song}</p>
+             <input type="Button" value="Delete" onclick="Deletesong(@song.Song)" />
+         }
+     </div>
+ }
+}
 </div>
 <div class="Listingbot">
     @if (ViewBag.songlist != null)
     {
            <input type="Button" value="Saveplaylist" onclick="save(@ViewBag.user)" />
-        <input type="Button" value="Duration" onclick="Duration(@ViewBag.songlist)" />
+        <input type="Button" value="Duration" onclick="duration(@ViewBag.duration)" />
         @foreach (var item in ViewBag.songlist)
         {
             <p>Song@{@item.Name}</p>
