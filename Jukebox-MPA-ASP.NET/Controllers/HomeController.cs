@@ -46,9 +46,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 var user = JsonConvert.DeserializeObject(userdes);
                 ViewBag.user = user;
-
             }
-                List<Users> Users = data.getusers();
+            else
+            {
+                ViewBag.user = "Login";
+            }
+
+            List<Users> Users = data.getusers();
                 ViewBag.Users = Users;
                 
                 //DataSeed();
@@ -95,7 +99,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 var user = JsonConvert.DeserializeObject(userdes);
                 ViewBag.user = user;
-
             }
             else
             {

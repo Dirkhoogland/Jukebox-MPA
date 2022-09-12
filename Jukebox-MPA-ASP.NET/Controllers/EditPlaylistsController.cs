@@ -1,17 +1,7 @@
 ﻿using Jukebox_MPA_ASP.NET.Models.Database;
-using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using Jukebox_MPA_ASP.NET.Models;
-using Jukebox_MPA_ASP.NET.Models.Database;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
-using System.Diagnostics;
-using System.Configuration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 
 namespace Jukebox_MPA_ASP.NET.Controllers
 {
@@ -32,7 +22,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             queueList = new List<Songs>();
             data = new DatabasecController1(_logger, _context);
         }
-
+        List<Songs> testplaylist;
         
 
     // updates local playlist
@@ -45,8 +35,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             oldlist = null;
             
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
-
-
             if (queueliststring == null)
             {
 
@@ -67,9 +55,10 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             dbsong = _context.Songs.Where(i => i.Id == Id).ToList();
             queueList.AddRange(dbsong);
 
-
+            
             HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(queueList));
             Debug.WriteLine(HttpContext.Session.GetString("QueueListsession"));
+            testplaylist = queueList;
 
 
         }
@@ -95,30 +84,31 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         [HttpPost]
         public void UploadLocalPlaylist([FromBody] string playlistname)
         {
-            var queuelistupload = HttpContext.Session.GetString("QueueListsession");
-            List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queuelistupload);
-            var userdes = HttpContext.Session.GetString("User");
+            var userdes = HttpContext.Session.GetString("user");
             string user = (string)JsonConvert.DeserializeObject(userdes);
-            data.uploadlist(user, list, playlistname);
+            var queueliststring = HttpContext.Session.GetString("QueueListsession");
+            List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
+            data.uploadlist(list, playlistname, user);
         }
         // calculates duration of local playlist
         public int duration(List<Songs> playlist)
         {
             int Newtotal = 0;
-            int total = 0;
+
 
             List<Songs> list = playlist;
             foreach (var duration in list)
             {
-                Newtotal = (int)(total + duration.Duration);
+                Newtotal = (int)(Newtotal + duration.Duration);
             }
             return Newtotal;
         }
 
         [HttpPost]
-        public void Deletesongfromplaylist([FromBody] string songname)
+        public string Deletesongfromplaylist([FromBody] string songname)
         {
             data.deletesong(songname);
+            return songname;
         }
        }
 

@@ -30,7 +30,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         // user related functions
         //gets user to set into session as logged in
         public List<Users> getuser(int Id)
-        {           
+        {
+
             return _context.Users.Where(m => m.Id == Id).ToList();
         }
         //gets users for user page 
@@ -38,6 +39,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return _context.Users.Where(m => m.Id >= 0).ToList();
         }
+        // create user 
         public void createuser(string name)
         {
            List<Users> namecheck = _context.Users.Where(m => m.Id >= 0).ToList();
@@ -71,8 +73,9 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         //----------------------------------------------------
         //playlist related functions
 
-        public void uploadlist(string user, List<Songs> songslist, string playlistname)
+        public void uploadlist(List<Songs> songslist, string playlistname, string user)
         {
+            
             foreach(var item in songslist)
             {
                 _context.Playlists.Add(new Models.Database.Playlists() {Song = item.Name, User = user, Playlist = playlistname });
@@ -80,13 +83,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
         }
 
-        public List<Playlists> getplaylists(string user) 
-        {
-            List<Playlists> playlists = _context.Playlists.Where(m => m.User == user).ToList();
-
-
-            return playlists;
-        }
         // deletes song from saved playlist
         public void deletesong(string songname)
         {
@@ -108,6 +104,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return _context.Genres.Where(m => m.Id >= 0).ToList();
         }
+        // gets playlist
+        public List<Playlists> getplaylists(string user)
+        {
+            List<Playlists> playlists = _context.Playlists.Where(m => m.User == user).ToList();
 
+
+            return playlists;
+        }
     }
 }

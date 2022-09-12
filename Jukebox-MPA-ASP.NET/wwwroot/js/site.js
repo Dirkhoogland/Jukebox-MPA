@@ -1,5 +1,5 @@
 ﻿var userinput = document.getElementById(userinput);
-var genrefront = document.getElementById('Genres')
+var genrefront = document.getElementByClass("Genres");
 
 //* user related functions */
 function Newuser()
@@ -14,24 +14,41 @@ function Newuser()
         data: JSON.stringify(userinputj),
         contentType: "application/json",
         success: function () { console.log(Id); },
-        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function () { location.reload(); }
     });
     
 }
-
-function Login(Id)
+// logs in user into session
+function Login(Id, user)
 {
     console.log(Id)
-
-    $.ajax({
-        type: "Post",
-        dataType: "Json",
-        url: '/User/login',
-        data: JSON.stringify(Id),
-        contentType: "application/json",
-        success: function () { console.log(Id); },
-        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
-    });
+    if (user == "Login")
+    {
+        $.ajax({
+            type: "Post",
+            dataType: "Json",
+            url: '/User/login',
+            data: JSON.stringify(Id),
+            contentType: "application/json",
+            success: function (response) { console.log(JSON.stringify(response)); },
+            error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+            complete: function (message) { location.reload(); }
+        });
+    }
+    else
+    {
+        $.ajax({
+            type: "Post",
+            dataType: "Json",
+            url: '/User/relogin',
+            data: JSON.stringify(Id),
+            contentType: "application/json",
+            success: function (response) { console.log(JSON.stringify(response)); },
+            error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+            complete: function (message) { location.reload(); }
+        });
+    }
     /*location.reload();*/
 }
 function Deleteuser(Id)
@@ -43,7 +60,8 @@ function Deleteuser(Id)
         data: JSON.stringify(Id),
         contentType: "application/json",
         success: function () { console.log(Id); },
-        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function () { location.reload(); }
     });
 }
 /*-----------------------------------------------------------------------------------------------------*/
@@ -70,10 +88,11 @@ function save(user)
         type: "Post",
         dataType: "Json",
         url: '/EditPlaylists/uploadLocalPlaylist',
-        data: JSON.stringify(name),
+        data: JSON.stringify(name, user),
         contentType: "application/json",
         success: function () { console.log(Id); },
-        Error: function (a, b, c) {console.log(a); console.log(b); console.log(c);}
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function (message) { location.reload(); }
 
     })
 }
@@ -94,11 +113,12 @@ function Detailsshow(Duration)
 //* only shows specific genre */
 function specificgenre(Genre)
 {
-    genrefront.style.visibility = "hidden"
+    genrefront.style.display = "none"
     var Genreselect = document.getElementById(Genre);
-    Genreselect.style.visibility = "Visible"
+    Genreselect.style.display = "block"
     console.log(Genre)
 }
+//*deletes song from playlist */
 function Deletesong(song)
 {
     $.ajax({
@@ -108,7 +128,8 @@ function Deletesong(song)
         data: JSON.stringify(song),
         contentType: "application/json",
         success: function () { console.log(Id); },
-        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function (message) { location.reload(); }
 
     })
 }

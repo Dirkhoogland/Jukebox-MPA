@@ -22,27 +22,41 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         public string user { get; set; }
         // saves user name in session
         [HttpPost]
-        public void Login([FromBody] int Id)
+        public string Login([FromBody] int Id)
         {
             List<Users> currentuser;
              currentuser = data.getuser(Id);
              user = currentuser[0].Name;
              HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
+            return JsonConvert.SerializeObject(user);
             
+        }
+        [HttpPost]
+        public string reLogin([FromBody] int Id)
+        {
+            HttpContext.Session.Clear();
+            List<Users> currentuser;
+            currentuser = data.getuser(Id);
+            user = currentuser[0].Name;
+            HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
+            return JsonConvert.SerializeObject(user);
+
         }
         // creates new user in database controller
         [HttpPost]
-        public void Newuser([FromBody] string Name)
+        public string Newuser([FromBody] string Name)
         {
             data.createuser(Name);
+            return Name;
 
         }
         // deletes user
         // 
         [HttpPost]
-        public void Delete([FromBody] int Id)
+        public int Delete([FromBody] int Id)
         {
             data.deleteuser(Id);
+            return Id;
 
         }
     }
