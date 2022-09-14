@@ -84,7 +84,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         [HttpPost]
         public void UploadLocalPlaylist([FromBody] string playlistname)
         {
-            var userdes = HttpContext.Session.GetString("user");
+            var userdes = HttpContext.Session.GetString("User");
             string user = (string)JsonConvert.DeserializeObject(userdes);
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
             List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
@@ -105,11 +105,20 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
 
         [HttpPost]
-        public string Deletesongfromplaylist([FromBody] string songname)
+        public int Deletesongfromplaylist([FromBody] int Id)
         {
-            data.deletesong(songname);
-            return songname;
+            data.deletesong(Id);
+            return Id;
         }
-       }
+        [HttpPost]
+        public int deletefromLocalPlaylist([FromBody] int i)
+        {
+            var queueliststring = HttpContext.Session.GetString("QueueListsession");
+            List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
+            list.RemoveAt(i);
+            return i;
+        }
+        
+    }
 
 }

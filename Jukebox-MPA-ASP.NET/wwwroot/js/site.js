@@ -1,5 +1,5 @@
 ﻿var userinput = document.getElementById(userinput);
-var genrefront = document.getElementByClass("Genres");
+var genrefront = document.getElementsByClassName("Genres");
 
 //* user related functions */
 function Newuser()
@@ -81,6 +81,21 @@ function addtoqueue(Id)
     });
     
 };
+//remove from local playlist
+function Removefromqueue(i)
+{
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/EditPlaylists/deletefromLocalPlaylist',
+        data: JSON.stringify(i),
+        contentType: "application/json",
+        success: function () { console.log(i); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function (message) { location.reload(); }
+
+    })
+}
 //* Saves playlist and promps user for name*//
 function save(user)
 { var name = prompt("Playlist name")
@@ -113,19 +128,20 @@ function Detailsshow(Duration)
 //* only shows specific genre */
 function specificgenre(Genre)
 {
-    genrefront.style.display = "none"
+    genrefront.foreach(genrefront.style.display = "none");
+
     var Genreselect = document.getElementById(Genre);
     Genreselect.style.display = "block"
     console.log(Genre)
 }
 //*deletes song from playlist */
-function Deletesong(song)
+function Deletesong(Id)
 {
     $.ajax({
         type: "Post",
         dataType: "Json",
         url: '/EditPlaylists/Deletesongfromplaylist',
-        data: JSON.stringify(song),
+        data: JSON.stringify(Id),
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },

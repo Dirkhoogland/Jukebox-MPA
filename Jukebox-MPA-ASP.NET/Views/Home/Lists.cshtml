@@ -5,33 +5,36 @@
 <h1>@ViewData["Title"]</h1>
 <h1>jouw lijsten</h1>
 @if(ViewBag.playlists != null){
- @foreach(var playlist in ViewBag.playlists)
- {
+@foreach (var playlist in ViewBag.playlistname)
+ {  if( playlist.User == ViewBag.user){
      <div>
-      <p>@{@playlist.Playlist}</p>
+      <p>playlist @{@playlist.Playlistname1}</p>
      </div>
      <div>
-         @foreach(var song in playlist)
+         @foreach(var song in ViewBag.playlists)
          {
-             <p>@{@song.Song}</p>
-             <input type="Button" value="Delete" onclick="Deletesong(@song.Song)" />
+             <p>Name @{@song.Song}</p>
+             <input type="Button" value="Delete" onclick="Deletesong(@song.Id)" />
+             <p>---------</p>
          }
      </div>
+     }
  }
 }
 </div>
 <div class="Listingbot">
     @if (ViewBag.songlist != null)
     {
-        @*@{@string username = ViewBag.user;}*@
-        <input type="Button" value="Saveplaylist" onclick="save('@ViewBag.user')" />
+        int i = 0; 
+        
+        <input type="Button" value="Saveplaylist" onclick="save(@ViewBag.userdes)" />
         <input type="Button" value="Duration" onclick="duration(@ViewBag.duration)" />
         @foreach (var item in ViewBag.songlist)
-        {
+        { 
             <p>Song@{@item.Name}</p>
             <p>Dur @{@item.Duration}</p>
-            <input type="Button" value="Remove" onclick="Removefromqueue(@item.Id)"/>
-
+            <input type="Button" value="Remove" onclick="Removefromqueue('i')"/>
+            i++;
         }
     }
 

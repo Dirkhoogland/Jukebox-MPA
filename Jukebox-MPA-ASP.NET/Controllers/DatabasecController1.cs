@@ -75,18 +75,20 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         public void uploadlist(List<Songs> songslist, string playlistname, string user)
         {
-            
+            _context.Playlistname.Add(new Models.Database.Playlistname(){ Playlistname1 = playlistname, User = user });
+            _context.SaveChanges();
+            List<Playlistname> name = _context.Playlistname.Where(a => a.Playlistname1 == playlistname).ToList();
             foreach(var item in songslist)
             {
-                _context.Playlists.Add(new Models.Database.Playlists() {Song = item.Name, User = user, Playlist = playlistname });
+                _context.Playlists.Add(new Models.Database.Playlists() {Song = item.Name, User = user, Playlist = name[0].Id });
                 _context.SaveChanges();
             }
         }
 
         // deletes song from saved playlist
-        public void deletesong(string songname)
+        public void deletesong(int Id)
         {
-            List<Playlists> removefunct = _context.Playlists.Where(a => a.Song == songname).ToList();
+            List<Playlists> removefunct = _context.Playlists.Where(a => a.Id == Id).ToList();
             _context.Playlists.Remove(removefunct[0]);
             _context.SaveChanges();
         }
@@ -108,6 +110,14 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         public List<Playlists> getplaylists(string user)
         {
             List<Playlists> playlists = _context.Playlists.Where(m => m.User == user).ToList();
+
+
+            return playlists;
+        }
+
+        public List<Playlistname> getnames(string user)
+        {
+            List<Playlistname> playlists = _context.Playlistname.Where(m => m.User == user).ToList();
 
 
             return playlists;

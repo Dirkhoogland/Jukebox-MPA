@@ -69,7 +69,10 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 ViewBag.user = user;
                 string userstring = user.ToString();
                 List<Playlists> playlists = data.getplaylists(userstring);
+                List<Playlistname> playlistname = data.getnames(userstring);
                 ViewBag.playlists = playlists;
+                ViewBag.userjson = userdes;
+                ViewBag.playlistname = playlistname;
 
             }
             else
@@ -99,6 +102,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 var user = JsonConvert.DeserializeObject(userdes);
                 ViewBag.user = user;
+                
             }
             else
             {
