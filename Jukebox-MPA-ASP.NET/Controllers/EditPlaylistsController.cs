@@ -117,7 +117,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
             List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
             list.RemoveAt(i);
-            
+            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(queueliststring));
             return i;
         }
         // finds playlist to add in 
