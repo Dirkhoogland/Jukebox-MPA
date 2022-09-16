@@ -117,6 +117,34 @@ function duration(Duration)
     alert("This playlist is " + Duration + "Minutes long");
 }
 
+function Addsongplaylist(playlist)
+{
+    console.log(playlist)
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/EditPlaylists/addsingleplaylist',
+        data: JSON.stringify(playlist),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function () { location.reload(); }
+    });
+}
+function Addsong(IdSong)
+{
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/EditPlaylists/addsingle',
+        data: JSON.stringify(IdSong),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function () { location.reload(); }
+    });
+}
+
 /*-----------------------------------------------------------------------------------------------------*/
 //* detail/song functions*/
 function Detailsshow(Duration)

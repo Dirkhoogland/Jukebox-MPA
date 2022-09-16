@@ -108,6 +108,18 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 ViewBag.user = "Login";
             }
+
+            var playlistsdes = HttpContext.Session.GetString("Playlistadd");
+            if (playlistsdes != null)
+            {
+                List<Playlistname> addlist = JsonConvert.DeserializeObject<List<Playlistname>>(playlistsdes);
+                ViewBag.addlist = addlist[0].Playlistname1;
+                ViewBag.Idlist = addlist[0].Id;
+            }
+            else
+            {
+                ViewBag.addlist = "Non";
+            }
             List<Genres> genresf = data.GetGenres();
                 List<Songs> Items = data.GetSongs();
                 ViewBag.item = Items;

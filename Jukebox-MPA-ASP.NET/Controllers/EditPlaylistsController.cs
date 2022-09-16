@@ -118,7 +118,30 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             list.RemoveAt(i);
             return i;
         }
-        
+
+        [HttpPost]
+        public int addsingleplaylist([FromBody] int Id)
+        {
+            List<Playlistname>  playlist = data.GetPlaylistnames(Id);
+            HttpContext.Session.SetString("Playlistadd", JsonConvert.SerializeObject(playlist));
+            return Id;
+            
+        }
+
+        [HttpPost]
+        public int addsong([FromBody] int Id)
+        {
+            List<Songs> Song = data.GetSong(Id);
+            var userdes = HttpContext.Session.GetString("User");
+            string user = (string)JsonConvert.DeserializeObject(userdes);
+            var playlistsdes = HttpContext.Session.GetString("Playlistadd");
+            List<Playlistname> addlist = JsonConvert.DeserializeObject<List<Playlistname>>(playlistsdes);
+
+            data.uploadlist(Song, user, addlist[0].Playlistname1);
+                return Id;
+
+        }
+
     }
 
 }

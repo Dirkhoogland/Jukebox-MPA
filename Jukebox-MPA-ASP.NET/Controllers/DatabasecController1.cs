@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Security.Policy;
+using System.Web.Providers.Entities;
 
 
 namespace Jukebox_MPA_ASP.NET.Controllers
@@ -101,6 +102,11 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return _context.Songs.Where(m => m.Id >= 0).ToList();
         }
+
+        public List<Songs> GetSong(int Id)
+        {
+            return _context.Songs.Where(m => m.Id == Id).ToList();
+        }
         // gets genre's for view
         public List<Genres> GetGenres()
         {
@@ -119,6 +125,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             List<Playlistname> playlists = _context.Playlistname.Where(m => m.User == user).ToList();
 
+
+            return playlists;
+        }
+
+        public List<Playlistname> GetPlaylistnames(int id)
+        {
+            List<Playlistname> playlists = _context.Playlistname.Where(m => m.Id == id).ToList();
 
             return playlists;
         }
