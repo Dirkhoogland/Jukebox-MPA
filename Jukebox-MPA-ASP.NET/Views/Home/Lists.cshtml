@@ -28,16 +28,16 @@
 <div class="Listingbot">
     @if (ViewBag.songlist != null)
     {
-        int i = 0; 
-        
+        int i = 0;
+
         <input type="Button" value="Saveplaylist" onclick="save(@ViewBag.userdes)" />
         <input type="Button" value="Duration" onclick="duration(@ViewBag.duration)" />
         @foreach (var item in ViewBag.songlist)
         { 
             <p>Song@{@item.Name}</p>
             <p>Dur @{@item.Duration}</p>
-            <input type="Button" value="Remove" onclick="Removefromqueue('i')"/>
-            i++;
+            @*<input type="Button" value="Remove" onclick="Removefromqueue(@i)"/>*@
+            
         }
     }
 

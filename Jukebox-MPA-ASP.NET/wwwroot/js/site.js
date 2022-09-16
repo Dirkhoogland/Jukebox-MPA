@@ -116,7 +116,7 @@ function duration(Duration)
 {
     alert("This playlist is " + Duration + "Minutes long");
 }
-
+//sets playlist for adding songs
 function Addsongplaylist(playlist)
 {
     console.log(playlist)
@@ -126,11 +126,12 @@ function Addsongplaylist(playlist)
         url: '/EditPlaylists/addsingleplaylist',
         data: JSON.stringify(playlist),
         contentType: "application/json",
-        success: function () { console.log(Id); },
+        success: function () { console.log(playlist); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
         complete: function () { location.reload(); }
     });
 }
+//adds song to existing playlist
 function Addsong(IdSong)
 {
     $.ajax({
@@ -139,7 +140,7 @@ function Addsong(IdSong)
         url: '/EditPlaylists/addsingle',
         data: JSON.stringify(IdSong),
         contentType: "application/json",
-        success: function () { console.log(Id); },
+        success: function () { console.log(IdSong); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
         complete: function () { location.reload(); }
     });

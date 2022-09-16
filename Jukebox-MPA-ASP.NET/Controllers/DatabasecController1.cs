@@ -94,6 +94,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             _context.SaveChanges();
         }
 
+        public void updatelist(List<Songs> songslist, string playlistname, string user)
+        {
+            List<Playlistname> name = _context.Playlistname.Where(a => a.Playlistname1 == playlistname).ToList();
+            _context.Playlists.Add(new Models.Database.Playlists() { Song = songslist[0].Name, User = user, Playlist = name[0].Id });
+            _context.SaveChanges();
+        }
+
 
         //------------------------------------------
         //get functions

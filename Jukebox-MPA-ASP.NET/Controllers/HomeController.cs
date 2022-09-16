@@ -108,7 +108,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 ViewBag.user = "Login";
             }
-
+            // checks if updateplaylist 
             var playlistsdes = HttpContext.Session.GetString("Playlistadd");
             if (playlistsdes != null)
             {

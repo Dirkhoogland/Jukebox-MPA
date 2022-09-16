@@ -28,7 +28,7 @@
 
                         <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
                         <input type="button" value="Details" onclick="Detailsshow(@front.Duration)">
-                        @if(ViewBag.addlist != "non")
+                        @if(ViewBag.addlist != "Non")
                         {
                             <input type="button" value="Add to @ViewBag.addlist" onclick="Addsong(@front.Id)">
                         }

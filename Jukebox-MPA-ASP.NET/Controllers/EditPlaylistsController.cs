@@ -103,22 +103,24 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
             return Newtotal;
         }
-
+        // deletes song from db playlist
         [HttpPost]
         public int Deletesongfromplaylist([FromBody] int Id)
         {
             data.deletesong(Id);
             return Id;
         }
+        // removes from local playlist
         [HttpPost]
         public int deletefromLocalPlaylist([FromBody] int i)
         {
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
             List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
             list.RemoveAt(i);
+            
             return i;
         }
-
+        // finds playlist to add in 
         [HttpPost]
         public int addsingleplaylist([FromBody] int Id)
         {
@@ -127,9 +129,9 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             return Id;
             
         }
-
+        // adds song into existing playlist
         [HttpPost]
-        public int addsong([FromBody] int Id)
+        public int addsingle([FromBody] int Id)
         {
             List<Songs> Song = data.GetSong(Id);
             var userdes = HttpContext.Session.GetString("User");
@@ -137,7 +139,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             var playlistsdes = HttpContext.Session.GetString("Playlistadd");
             List<Playlistname> addlist = JsonConvert.DeserializeObject<List<Playlistname>>(playlistsdes);
 
-            data.uploadlist(Song, user, addlist[0].Playlistname1);
+            data.updatelist(Song, addlist[0].Playlistname1, user);
                 return Id;
 
         }
