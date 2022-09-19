@@ -9,6 +9,7 @@
  {  if( playlist.User == ViewBag.user){
      <div>
       <p>playlist @{@playlist.Playlistname1}</p>
+      <input type="Button" value="Update" onclick="Updatename(@playlist.Id)" />
      </div>
      <div>
          @foreach(var song in ViewBag.playlists)

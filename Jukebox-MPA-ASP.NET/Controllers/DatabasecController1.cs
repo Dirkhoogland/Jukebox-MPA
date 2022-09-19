@@ -73,7 +73,16 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
         //----------------------------------------------------
         //playlist related functions
+        // updates playlistname
+        public void updatename(int Idlist, string name)
+        {
 
+            List <Playlistname> updatedlist = _context.Playlistname.Where(a => a.Id == Idlist).ToList();
+            updatedlist[0].Playlistname1 = name;
+            _context.Playlistname.Update(updatedlist[0]);
+            _context.SaveChanges();
+        }
+        // uploads list to database 
         public void uploadlist(List<Songs> songslist, string playlistname, string user)
         {
             _context.Playlistname.Add(new Models.Database.Playlistname(){ Playlistname1 = playlistname, User = user });
@@ -93,7 +102,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             _context.Playlists.Remove(removefunct[0]);
             _context.SaveChanges();
         }
-
+        // uploads a song to a specific playlist
         public void updatelist(List<Songs> songslist, string playlistname, string user)
         {
             List<Playlistname> name = _context.Playlistname.Where(a => a.Playlistname1 == playlistname).ToList();

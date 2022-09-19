@@ -2,6 +2,9 @@
 using Newtonsoft.Json;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System;
 
 namespace Jukebox_MPA_ASP.NET.Controllers
 {
@@ -13,7 +16,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         private readonly HomeController homeController;
         private readonly DatabasecController1 data;
         public List<Songs> queueList { get; set; }
-
+        
         public EditPlaylistsController(ILogger<HomeController> logger, DatabaseContext context)
         {
             _logger = logger;
@@ -61,6 +64,16 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             testplaylist = queueList;
 
 
+        }
+        // updates playlist with userinput
+        [HttpPost]
+        public int Updatename([FromBody] Datalist Data)
+        {
+            int Id = Data.Id;
+            string Name = Data.Name;
+            data.updatename(Id, Name);
+
+            return Id;
         }
         // fills the local playlist
         public List<Songs> FillLocalPlaylist(List<Songs> emptylist,string playlist)

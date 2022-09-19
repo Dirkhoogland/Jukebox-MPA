@@ -1,6 +1,4 @@
 ﻿var userinput = document.getElementById(userinput);
-var genrefront = document.getElementsByClassName("Genres");
-
 //* user related functions */
 function Newuser()
 {
@@ -51,6 +49,7 @@ function Login(Id, user)
     }
     /*location.reload();*/
 }
+// deletes user 
 function Deleteuser(Id)
 {
     $.ajax({
@@ -96,7 +95,7 @@ function Removefromqueue(i)
 
     })
 }
-//* Saves playlist and promps user for name*//
+//* Saves playlist and prompts user for name*//
 function save(user)
 { var name = prompt("Playlist name")
     $.ajax({
@@ -145,6 +144,28 @@ function Addsong(IdSong)
         complete: function () { location.reload(); }
     });
 }
+//update db playlistname
+function Updatename(Id)
+{
+    var Name = prompt('New playlist name');
+
+    var list = JSON.stringify(
+        {
+            'Id': Id,
+            'Name': Name
+        });
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        traditional: true,
+        url: '/EditPlaylists/Updatename',
+        data: list,
+        contentType: "application/json",
+        success: function () { console.log(IdSong); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        complete: function () { location.reload(); }
+    });
+}
 
 /*-----------------------------------------------------------------------------------------------------*/
 //* detail/song functions*/
@@ -157,6 +178,8 @@ function Detailsshow(Duration)
 //* only shows specific genre */
 function specificgenre(Genre)
 {
+
+    var genrefront = document.getElementsByClassName("Genres");
     genrefront.foreach(genrefront.style.display = "none");
 
     var Genreselect = document.getElementById(Genre);
