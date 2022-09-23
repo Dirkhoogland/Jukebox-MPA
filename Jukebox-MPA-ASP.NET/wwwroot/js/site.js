@@ -19,7 +19,7 @@ function Newuser()
 }
 // logs in user into session
 function Login(Id, user)
-{
+{/*, user*/
     console.log(Id)
     if (user == "Login")
     {
@@ -47,7 +47,7 @@ function Login(Id, user)
             complete: function (message) { location.reload(); }
         });
     }
-    /*location.reload();*/
+    
 }
 // deletes user 
 function Deleteuser(Id)
@@ -180,15 +180,18 @@ function specificgenre(Genre)
 {
 
     var genrefront = document.getElementsByClassName("Genres");
-    genrefront.foreach(genrefront.style.display = "none");
-
+    /* genrefront.forEach((singleGenre) => { singleGenre.style.display = "none" });*/
+    /*var arr = Array.from(htmlCollection);*/
+    for (var i = 0; i < genrefront.length; i++)
+    {
+        genrefront[i].style.display = "None";
+    }
     var Genreselect = document.getElementById(Genre);
     Genreselect.style.display = "block"
     console.log(Genre)
 }
 //*deletes song from playlist */
-function Deletesong(Id)
-{
+function Deletesong(Id) {
     $.ajax({
         type: "Post",
         dataType: "Json",

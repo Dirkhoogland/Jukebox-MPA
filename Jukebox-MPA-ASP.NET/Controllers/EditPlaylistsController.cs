@@ -28,8 +28,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         List<Songs> testplaylist;
         
 
-    // updates local playlist
-    [HttpPost]
+        // updates local playlist
+        [HttpPost]
         public void UpdateLocalPlaylist([FromBody] int Id)
         {
             List<Songs> dbsong;
