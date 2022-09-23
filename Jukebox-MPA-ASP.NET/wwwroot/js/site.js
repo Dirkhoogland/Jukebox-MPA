@@ -188,7 +188,7 @@ function specificgenre(Genre)
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
         
     })
-
+    
     //    $.ajax({
     //    type: "Post",
     //    dataType: "Json",
