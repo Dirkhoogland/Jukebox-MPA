@@ -52,7 +52,6 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
         }
         // deletes user
-        // 
         [HttpPost]
         public int Delete([FromBody] int Id)
         {

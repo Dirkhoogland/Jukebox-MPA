@@ -1,0 +1,19 @@
+﻿<h1>Songs</h1>
+        @foreach (var front in ViewBag.item)
+        {
+            if (ViewBag.genre == front.Genre)
+            {
+                <div class="songlist">
+                    <p>Song name @{@front.Name}</p>
+
+
+                    <Input type="Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
+
+                    @if (ViewBag.addlist != "Non")
+                    {
+                        <input type="button" value="Add to @ViewBag.addlist" onclick="Addsong(@front.Id)">
+                    }
+            <a class="nav-link text-dark" onclick="specificgenreview(@front.Id)" asp-area="" asp-controller="Home" asp-action="Songsspecific">Details</a>
+                </div>
+            }
+        }

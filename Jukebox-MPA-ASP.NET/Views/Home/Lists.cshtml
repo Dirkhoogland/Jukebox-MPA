@@ -32,7 +32,7 @@
         int i = 0;
 
         <input type="Button" value="Saveplaylist" onclick="save(@ViewBag.userdes)" />
-        <input type="Button" value="Duration" onclick="duration(@ViewBag.duration)" />
+        
         @foreach (var item in ViewBag.songlist)
         { 
             <p>Song@{@item.Name}</p>
@@ -40,6 +40,7 @@
             @*<input type="Button" value="Remove" onclick="Removefromqueue(@i)"/>*@
             
         }
+        <p>duration = @{@ViewBag.duration}</p>
     }
 
 </div>

@@ -16,8 +16,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         public class HomeController : Controller
         {
 
-            public string? inputName { get; set; }
-            public int? Id { get; set; }
+
 
             private readonly ILogger<HomeController> _logger;
             private readonly DatabaseContext _context;
@@ -108,6 +107,26 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 ViewBag.user = "Login";
             }
+            List<Genres> genresf = data.GetGenres();
+            ViewBag.genre = genresf;
+
+
+                return View();
+            }
+
+            public IActionResult Songs(string genre)
+            {
+            var userdes = HttpContext.Session.GetString("User");
+            if (userdes != null)
+            {
+                var user = JsonConvert.DeserializeObject(userdes);
+                ViewBag.user = user;
+
+            }
+            else
+            {
+                ViewBag.user = "Login";
+            }
             // checks if updateplaylist 
             var playlistsdes = HttpContext.Session.GetString("Playlistadd");
             if (playlistsdes != null)
@@ -120,18 +139,52 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 ViewBag.addlist = "Non";
             }
-            List<Genres> genresf = data.GetGenres();
-                List<Songs> Items = data.GetSongs();
-                ViewBag.item = Items;
-                ViewBag.genre = genresf;
 
 
-                return View();
+
+
+            var Genredes = HttpContext.Session.GetString("Genre");
+            if (Genredes != null)
+            {
+                List<Genres> genresspecific = JsonConvert.DeserializeObject<List<Genres>>(Genredes);
+                ViewBag.genre = genresspecific[0].Genre;
+            }
+            
+            List<Songs> Items = data.GetSongs();
+            ViewBag.item = Items;
+
+
+
+
+            return View();
             }
 
+        public IActionResult Songsspecific()
+        {
+            var playlistsdes = HttpContext.Session.GetString("Playlistadd");
+            if (playlistsdes != null)
+            {
+                List<Playlistname> addlist = JsonConvert.DeserializeObject<List<Playlistname>>(playlistsdes);
+                ViewBag.addlist = addlist[0].Playlistname1;
+                ViewBag.Idlist = addlist[0].Id;
+            }
+            else
+            {
+                ViewBag.addlist = "Non";
+            }
+            var songviewdes = HttpContext.Session.GetString("songview");
+            if (songviewdes != null)
+            {
+                List<Songs> Songview = JsonConvert.DeserializeObject<List<Songs>>(songviewdes);
+                ViewBag.songname = Songview[0].Name;
+                ViewBag.songdur = Songview[0].Duration;
+                ViewBag.songid = Songview[0].Id;
+                ViewBag.songAuthor = Songview[0].Author;
+            }
+            return View();
+        }
 
-
-            [ResponseCache(Duration = 1000, Location = ResponseCacheLocation.None, NoStore = false)]
+            [ResponseCache(Duration = 1000000, Location = ResponseCacheLocation.None, NoStore = false)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

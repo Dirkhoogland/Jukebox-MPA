@@ -84,7 +84,9 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
         // uploads list to database 
         public void uploadlist(List<Songs> songslist, string playlistname, string user)
-        {
+        { 
+
+            // check bug primary key violation
             _context.Playlistname.Add(new Models.Database.Playlistname(){ Playlistname1 = playlistname, User = user });
             _context.SaveChanges();
             List<Playlistname> name = _context.Playlistname.Where(a => a.Playlistname1 == playlistname).ToList();
@@ -150,6 +152,12 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             List<Playlistname> playlists = _context.Playlistname.Where(m => m.Id == id).ToList();
 
             return playlists;
+        }
+
+        public List<Genres> getGenrebyname(string Genre)
+        {
+            List<Genres> Genrelist = _context.Genres.Where(m => m.Genre == Genre).ToList();
+            return Genrelist;
         }
     }
 }

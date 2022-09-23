@@ -1,0 +1,12 @@
+﻿<p>Song name @{@ViewBag.songname}</p>
+
+<p>Song author @{@ViewBag.songauthor}</p>
+
+<p>Song duration @{@ViewBag.songdur}</p>
+
+<Input type="Button" value="Add to playlist" onclick="addtoqueue(@ViewBag.songid)">
+
+@if (ViewBag.addlist != "Non")
+{
+    <input type="button" value="Add to @ViewBag.addlist" onclick="Addsong(@ViewBag.songid)">
+}

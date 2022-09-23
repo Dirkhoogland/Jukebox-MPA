@@ -156,7 +156,23 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 return Id;
 
         }
-
+        //---------------------- detail view page and details
+        [HttpPost]
+        public string Songsingenre([FromBody]string Genre)
+        {
+            List<Genres> Grenrespecific = data.getGenrebyname(Genre);
+            Debug.WriteLine(Grenrespecific);
+            HttpContext.Session.SetString("Genre", JsonConvert.SerializeObject(Grenrespecific));
+            return Genre;
+        }
+        [HttpPost]
+        public int specificsongview([FromBody] int id )
+        {
+            List<Songs> song = data.GetSong(id);
+            
+            HttpContext.Session.SetString("songview", JsonConvert.SerializeObject(song));
+            return id;
+        }
     }
 
 }

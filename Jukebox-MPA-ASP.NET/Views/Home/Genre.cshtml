@@ -3,39 +3,16 @@
     ViewData["Title"] = "Genre-Songs";
 
 } 
-@if (ViewBag.user != "Login") {
+@if (ViewBag.user != "Login")
+{
     <div id = "Genre-buttons">
         @foreach (var genres in ViewBag.genre)
         {
-            <input type = "Button" value="@{@genres.Genre}" onclick="specificgenre('@genres.Genre')">
+           
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Songs" onclick="specificgenre('@genres.Genre')">@{@genres.Genre}</a>
         }
     </div>
-
-    <h1>Songs</h1>
-    @foreach (var genres in ViewBag.genre)
-    {
-        <Div class="Genres" id = "@genres.Genre">
-            <div id ="Genresnaam">
-                <p>@{@genres.Genre }</p>
-            </div>
-            @foreach (var front in ViewBag.item)
-            {
-                if (genres.Genre == front.Genre)
-                {
-                    <div class = "songlist">
-                        <p>Song name @{@front.Name}</p>
-                        <p>Author  @{@front.Author}</p>
-
-                        <Input type = "Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
-                        <input type="button" value="Details" onclick="Detailsshow(@front.Duration)">
-                        @if(ViewBag.addlist != "Non")
-                        {
-                        <input type="button" value="Add to @ViewBag.addlist" onclick="Addsong(@front.Id)">
-                        }
-                    </div>
-                }
-            }
-        </Div>
-    }
-
 }
+
+
+

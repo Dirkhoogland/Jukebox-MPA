@@ -35,7 +35,7 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
 
             modelBuilder.Entity<Playlistname>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.Playlistname1)
                     .HasMaxLength(250)

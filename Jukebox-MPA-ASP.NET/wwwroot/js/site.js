@@ -168,7 +168,7 @@ function Updatename(Id)
 }
 
 /*-----------------------------------------------------------------------------------------------------*/
-//* detail/song functions*/
+//* detail/song functions, old*/
 function Detailsshow(Duration)
 {
     console.log(Duration)
@@ -178,17 +178,38 @@ function Detailsshow(Duration)
 //* only shows specific genre */
 function specificgenre(Genre)
 {
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/EditPlaylists/Songsingenre',
+        data: JSON.stringify(Genre),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        
+    })
 
-    var genrefront = document.getElementsByClassName("Genres");
-    /* genrefront.forEach((singleGenre) => { singleGenre.style.display = "none" });*/
-    /*var arr = Array.from(htmlCollection);*/
-    for (var i = 0; i < genrefront.length; i++)
-    {
-        genrefront[i].style.display = "None";
-    }
-    var Genreselect = document.getElementById(Genre);
-    Genreselect.style.display = "block"
-    console.log(Genre)
+    //    $.ajax({
+    //    type: "Post",
+    //    dataType: "Json",
+    //    url: '/Home/Songs',
+    //    data: JSON.stringify(Genre),
+    //    contentType: "application/json",
+    //    success: function () { console.log(Id); },
+    //    Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+    //})
+
+
+
+    //var genrefront = document.getElementsByClassName("Genres");
+
+    //for (var i = 0; i < genrefront.length; i++)
+    //{
+    //    genrefront[i].style.display = "None";
+    //}
+    //var Genreselect = document.getElementById(Genre);
+    //Genreselect.style.display = "block"
+    //console.log(Genre)
 }
 //*deletes song from playlist */
 function Deletesong(Id) {
@@ -201,6 +222,22 @@ function Deletesong(Id) {
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
         complete: function (message) { location.reload(); }
+
+    })
+}
+
+function specificgenreview(Id)
+{
+    $.ajax({
+        type: "Post",
+        dataType: "Json",
+        url: '/EditPlaylists/specificsongview',
+        data: JSON.stringify(Id),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
+        
+        
 
     })
 }
