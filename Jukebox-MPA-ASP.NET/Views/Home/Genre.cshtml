@@ -8,8 +8,9 @@
     <div id = "Genre-buttons">
         @foreach (var genres in ViewBag.genre)
         {
-           
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Songs" onclick="specificgenre('@genres.Genre')">@{@genres.Genre}</a>
+            <p>-------</p>
+            <a class="nav-link text-dark" id="Select" asp-area="" asp-controller="Home" asp-action="Songs">@{@genres.Genre}</a>
+            <Input type="Button" value="Select" onclick="specificgenre('@genres.Genre')">
         }
     </div>
 }

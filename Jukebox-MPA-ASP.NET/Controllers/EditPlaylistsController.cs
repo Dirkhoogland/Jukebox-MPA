@@ -130,7 +130,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
             List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
             list.RemoveAt(i);
-            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(queueliststring));
+            Debug.WriteLine(list);
+            HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(list));
             return i;
         }
         // finds playlist to add in 
@@ -158,6 +159,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         }
         //---------------------- detail view page and details
         [HttpPost]
+        //sets the genre in the session the user is looking at 
         public string Songsingenre([FromBody]string Genre)
         {
             List<Genres> Grenrespecific = data.getGenrebyname(Genre);
@@ -165,6 +167,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             HttpContext.Session.SetString("Genre", JsonConvert.SerializeObject(Grenrespecific));
             return Genre;
         }
+        // shows a specific song from the genre 
         [HttpPost]
         public int specificsongview([FromBody] int id )
         {

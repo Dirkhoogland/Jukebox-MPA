@@ -71,7 +71,10 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 List<Playlistname> playlistname = data.getnames(userstring);
                 ViewBag.playlists = playlists;
                 ViewBag.userjson = userdes;
-                ViewBag.playlistname = playlistname;
+                ViewBag.playlistsuser = playlistname;
+                ViewBag.playlistname = playlistname[0].Playlistname1;
+                ViewBag.usercheck = playlistname[0].User;
+
 
             }
             else

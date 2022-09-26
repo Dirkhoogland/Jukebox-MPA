@@ -5,24 +5,36 @@
 <h1>@ViewData["Title"]</h1>
 <h1>jouw lijsten</h1>
 @if(ViewBag.playlists != null){
-@foreach (var playlist in ViewBag.playlistname)
- {  if( playlist.User == ViewBag.user){
-     <div>
-      <p>playlist @{@playlist.Playlistname1}</p>
-      <input type="Button" value="Update" onclick="Updatename(@playlist.Id)" />
-     </div>
-     <div>
-         @foreach(var song in ViewBag.playlists)
-         {
-             <p>Name @{@song.Song}</p>
-             <input type="Button" value="Delete" onclick="Deletesong(@song.Id)" />
-             <p>---------</p>
-         }
-     </div>
-     <div>
-              <input type="Button" value="Add more" onclick="Addsongplaylist(@playlist.Id)" />
-     </div>
-     }
+        @foreach (var playlist in ViewBag.playlistsuser)
+        {
+
+
+            if (ViewBag.usercheck == ViewBag.user)
+            {
+
+                <div>
+                    <p>playlist @{@playlist.Playlistname1}</p>
+                    <input type="Button" value="Update" onclick="Updatename(@playlist.Id)" />
+                </div>
+
+
+
+                    <div>
+                        @foreach (var song in ViewBag.playlists)
+                        {
+                            if (song.Playlist == playlist.Id)
+                            {
+                                <p>Name @{@song.Song}</p>
+                                <input type="Button" value="Delete" onclick="Deletesong(@song.Id)" />
+                                <p>---------</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <input type="Button" value="Add more" onclick="Addsongplaylist(@playlist.Id)" />
+                    </div>
+
+            }
  }
 }
 </div>
@@ -37,8 +49,8 @@
         { 
             <p>Song@{@item.Name}</p>
             <p>Dur @{@item.Duration}</p>
-            @*<input type="Button" value="Remove" onclick="Removefromqueue(@i)"/>*@
-            
+            <input type="Button" value="Remove" onclick="Removefromqueue(@i)"/>
+            i++;
         }
         <p>duration = @{@ViewBag.duration}</p>
     }

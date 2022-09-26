@@ -120,7 +120,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         {
             return _context.Songs.Where(m => m.Id >= 0).ToList();
         }
-
+        // gets song by id 
         public List<Songs> GetSong(int Id)
         {
             return _context.Songs.Where(m => m.Id == Id).ToList();
@@ -138,7 +138,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             return playlists;
         }
-
+        // gets user name for playlist
         public List<Playlistname> getnames(string user)
         {
             List<Playlistname> playlists = _context.Playlistname.Where(m => m.User == user).ToList();
@@ -146,14 +146,14 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             return playlists;
         }
-
+        // gets playlistnames
         public List<Playlistname> GetPlaylistnames(int id)
         {
             List<Playlistname> playlists = _context.Playlistname.Where(m => m.Id == id).ToList();
 
             return playlists;
         }
-
+        //gets genre by name for songs view
         public List<Genres> getGenrebyname(string Genre)
         {
             List<Genres> Genrelist = _context.Genres.Where(m => m.Genre == Genre).ToList();

@@ -5,7 +5,7 @@
             {
                 <div class="songlist">
                     <p>Song name @{@front.Name}</p>
-
+                    <p>Genre @{@front.Genre}</p>
 
                     <Input type="Button" value="Add to playlist" onclick="addtoqueue(@front.Id)">
 
@@ -13,7 +13,9 @@
                     {
                         <input type="button" value="Add to @ViewBag.addlist" onclick="Addsong(@front.Id)">
                     }
-            <a class="nav-link text-dark" onclick="specificgenreview(@front.Id)" asp-area="" asp-controller="Home" asp-action="Songsspecific">Details</a>
+            <Input type="Button" value="Select" onclick="specificgenreview(@front.Id)">
+            <a class="nav-link text-dark" id = "Select"  asp-area="" asp-controller="Home" asp-action="Songsspecific">Details</a>
+            <p>-------</p>
                 </div>
             }
         }

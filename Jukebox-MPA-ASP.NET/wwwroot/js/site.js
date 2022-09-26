@@ -1,4 +1,6 @@
 ﻿var userinput = document.getElementById(userinput);
+var select = document.getElementById("Select");
+/*select.style.visibility = "hidden";*/
 //* user related functions */
 function Newuser()
 {
@@ -168,7 +170,7 @@ function Updatename(Id)
 }
 
 /*-----------------------------------------------------------------------------------------------------*/
-//* detail/song functions, old*/
+//* detail/song functions*/
 function Detailsshow(Duration)
 {
     console.log(Duration)
@@ -188,7 +190,7 @@ function specificgenre(Genre)
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
         
     })
-    
+    select.style.visibility = "visible"
     //    $.ajax({
     //    type: "Post",
     //    dataType: "Json",
@@ -225,7 +227,7 @@ function Deletesong(Id) {
 
     })
 }
-
+// sends id for specific song view 
 function specificgenreview(Id)
 {
     $.ajax({
@@ -236,8 +238,6 @@ function specificgenreview(Id)
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); },
-        
-        
-
     })
+    select.style.visibility = "visible"
 }
