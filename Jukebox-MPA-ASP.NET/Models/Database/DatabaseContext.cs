@@ -12,7 +12,7 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
             : base(options)
         {
         }
-
+        // creates dbsets for model creation
         public virtual DbSet<Genres> Genres { get; set; } = null!;
         public virtual DbSet<Playlistname> Playlistname { get; set; } = null!;
         public virtual DbSet<Playlists> Playlists { get; set; } = null!;
@@ -21,7 +21,7 @@ namespace Jukebox_MPA_ASP.NET.Models.Database
         public virtual DbSet<Users> Users { get; set; } = null!;
 
 
-
+        // model creation from entity framework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Genres>(entity =>

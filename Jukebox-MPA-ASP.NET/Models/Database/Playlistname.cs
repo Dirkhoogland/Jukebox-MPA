@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Jukebox_MPA_ASP.NET.Models.Database
 {
     public partial class Playlistname
-    {
+    {   // playlistame model, with key to playlist
         public Playlistname()
         {
             Playlists = new HashSet<Playlists>();

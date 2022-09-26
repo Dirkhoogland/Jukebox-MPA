@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System;
+using System.Xml.Linq;
 
 namespace Jukebox_MPA_ASP.NET.Controllers
 {
@@ -14,7 +15,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DatabaseContext _context;
         private readonly HomeController homeController;
-        private readonly DatabasecController1 data;
+        
         public List<Songs> queueList { get; set; }
         
         public EditPlaylistsController(ILogger<HomeController> logger, DatabaseContext context)
@@ -23,12 +24,12 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             _context = context;
             homeController = new HomeController(_logger, _context);
             queueList = new List<Songs>();
-            data = new DatabasecController1(_logger, _context);
+            
         }
         List<Songs> testplaylist;
         
 
-        // updates local playlist
+        // updates local playlist by getting it from the session, then checking and adding the new song into the list before setting it again
         [HttpPost]
         public void UpdateLocalPlaylist([FromBody] int Id)
         {
@@ -65,17 +66,21 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
 
         }
-        // updates playlist with userinput
+        // updates playlist with userinput, gets the name + id from front end and back end db, updates it afterwards
         [HttpPost]
         public int Updatename([FromBody] Datalist Data)
         {
             int Id = Data.Id;
             string Name = Data.Name;
-            data.updatename(Id, Name);
+
+            List<Playlistname> updatedlist = _context.Playlistname.Where(a => a.Id == Id).ToList();
+            updatedlist[0].Playlistname1 = Name;
+            _context.Playlistname.Update(updatedlist[0]);
+            _context.SaveChanges();
 
             return Id;
         }
-        // fills the local playlist
+        // fills the local playlist and sets the string with old and new songs 
         public List<Songs> FillLocalPlaylist(List<Songs> emptylist,string playlist)
         {
 
@@ -93,7 +98,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
 
         }
-        // uploads local playlist to database
+        // uploads local playlist to database by sending the playlist name and retrieving songs out of session 
         [HttpPost]
         public void UploadLocalPlaylist([FromBody] string playlistname)
         {
@@ -101,7 +106,15 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             string user = (string)JsonConvert.DeserializeObject(userdes);
             var queueliststring = HttpContext.Session.GetString("QueueListsession");
             List<Songs> list = JsonConvert.DeserializeObject<List<Songs>>(queueliststring);
-            data.uploadlist(list, playlistname, user);
+            
+            _context.Playlistname.Add(new Models.Database.Playlistname() { Playlistname1 = playlistname, User = user });
+            _context.SaveChanges();
+            List<Playlistname> name = _context.Playlistname.Where(a => a.Playlistname1 == playlistname).ToList();
+            foreach (var item in list)
+            {
+                _context.Playlists.Add(new Models.Database.Playlists() { Song = item.Name, User = user, Playlist = name[0].Id });
+                _context.SaveChanges();
+            }
         }
         // calculates duration of local playlist
         public int duration(List<Songs> playlist)
@@ -116,14 +129,16 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             }
             return Newtotal;
         }
-        // deletes song from db playlist
+        // deletes song from db playlist with Id sent from front-end
         [HttpPost]
         public int Deletesongfromplaylist([FromBody] int Id)
         {
-            data.deletesong(Id);
+            List<Playlists> removefunct = _context.Playlists.Where(a => a.Id == Id).ToList();
+            _context.Playlists.Remove(removefunct[0]);
+            _context.SaveChanges();
             return Id;
         }
-        // removes from local playlist
+        // removes from local playlist by index number in localplaylist
         [HttpPost]
         public int deletefromLocalPlaylist([FromBody] int i)
         {
@@ -134,45 +149,49 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             HttpContext.Session.SetString("QueueListsession", JsonConvert.SerializeObject(list));
             return i;
         }
-        // finds playlist to add in 
+        // finds playlist to add in song by song id and setting it in the session 
         [HttpPost]
         public int addsingleplaylist([FromBody] int Id)
         {
-            List<Playlistname>  playlist = data.GetPlaylistnames(Id);
+            List<Playlistname>  playlist = _context.Playlistname.Where(m => m.Id == Id).ToList();
             HttpContext.Session.SetString("Playlistadd", JsonConvert.SerializeObject(playlist));
             return Id;
             
         }
-        // adds song into existing playlist
+        // adds song into existing playlist by selecting the playlist by name in session 
         [HttpPost]
         public int addsingle([FromBody] int Id)
         {
-            List<Songs> Song = data.GetSong(Id);
+            List<Songs> Song = _context.Songs.Where(m => m.Id == Id).ToList();
             var userdes = HttpContext.Session.GetString("User");
             string user = (string)JsonConvert.DeserializeObject(userdes);
             var playlistsdes = HttpContext.Session.GetString("Playlistadd");
             List<Playlistname> addlist = JsonConvert.DeserializeObject<List<Playlistname>>(playlistsdes);
 
-            data.updatelist(Song, addlist[0].Playlistname1, user);
-                return Id;
+            
+
+            List<Playlistname> name = _context.Playlistname.Where(a => a.Playlistname1 == addlist[0].Playlistname1).ToList();
+            _context.Playlists.Add(new Models.Database.Playlists() { Song = Song[0].Name , User = user, Playlist = name[0].Id });
+            _context.SaveChanges();
+            return Id;
 
         }
         //---------------------- detail view page and details
         [HttpPost]
-        //sets the genre in the session the user is looking at 
+        //sets the genre in the session the user is looking at with genre sent from front end 
         public string Songsingenre([FromBody]string Genre)
         {
-            List<Genres> Grenrespecific = data.getGenrebyname(Genre);
+            List<Genres> Grenrespecific = _context.Genres.Where(m => m.Genre == Genre).ToList();
             Debug.WriteLine(Grenrespecific);
             HttpContext.Session.SetString("Genre", JsonConvert.SerializeObject(Grenrespecific));
             return Genre;
         }
-        // shows a specific song from the genre 
+        // shows a specific song from the genre with int send from front end 
         [HttpPost]
         public int specificsongview([FromBody] int id )
         {
-            List<Songs> song = data.GetSong(id);
-            
+            List<Songs> song = _context.Songs.Where(m => m.Id == id).ToList();
+
             HttpContext.Session.SetString("songview", JsonConvert.SerializeObject(song));
             return id;
         }

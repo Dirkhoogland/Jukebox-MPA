@@ -20,13 +20,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             private readonly ILogger<HomeController> _logger;
             private readonly DatabaseContext _context;
-            private readonly DatabasecController1 data;
+            
             
             public HomeController(ILogger<HomeController> logger, DatabaseContext context)
             {
                 _logger = logger;
                 _context = context;
-                data = new DatabasecController1(_logger, _context);
+                
             
             }
             int i = 0;
@@ -34,7 +34,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             
 
             public List<Songs> emptylist { get; set; }
-            
+            // view for index function, does check if session has a user and who it is before requesting all users from db model 
             public IActionResult Index()
             {
 
@@ -51,13 +51,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 ViewBag.user = "Login";
             }
 
-            List<Users> Users = data.getusers();
-                ViewBag.Users = Users;
+            List<Users> Users = _context.Users.Where(m => m.Id >= 0).ToList();
+            ViewBag.Users = Users;
                 
                 //DataSeed();
                 return View();
             }
-            
+            // lists view, does same as index view but also sees if user has any lists connected to it 
             public IActionResult Lists()
             {
             var userdes = HttpContext.Session.GetString("User");
@@ -67,8 +67,8 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 var user = JsonConvert.DeserializeObject(userdes);
                 ViewBag.user = user;
                 string userstring = user.ToString();
-                List<Playlists> playlists = data.getplaylists(userstring);
-                List<Playlistname> playlistname = data.getnames(userstring);
+                List<Playlists> playlists = _context.Playlists.Where(m => m.User == user).ToList();
+                List<Playlistname> playlistname = _context.Playlistname.Where(m => m.User == user).ToList();
                 ViewBag.playlists = playlists;
                 ViewBag.userjson = userdes;
                 ViewBag.playlistsuser = playlistname;
@@ -81,6 +81,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 ViewBag.user = "Login";
             }
+            // calls up the playlist controller to check list and if to fill it 
             EditPlaylistsController controller = new EditPlaylistsController(_logger, _context);
                 var playlistvar = HttpContext.Session.GetString("QueueListsession");
                 emptylist = controller.FillLocalPlaylist(emptylist, playlistvar);
@@ -96,7 +97,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
                 return View();
             }
-            
+            // creates genre view does same as index but checks if there are any genres in the db 
             public IActionResult Genre()
             {
             var userdes = HttpContext.Session.GetString("User");
@@ -110,13 +111,13 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             {
                 ViewBag.user = "Login";
             }
-            List<Genres> genresf = data.GetGenres();
+            List<Genres> genresf = _context.Genres.Where(m => m.Id >= 0).ToList();
             ViewBag.genre = genresf;
 
 
                 return View();
             }
-
+        // shows songs from specific genre when selected 
             public IActionResult Songs(string genre)
             {
             var userdes = HttpContext.Session.GetString("User");
@@ -153,7 +154,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
                 ViewBag.genre = genresspecific[0].Genre;
             }
             
-            List<Songs> Items = data.GetSongs();
+            List<Songs> Items = _context.Songs.Where(m => m.Id >= 0).ToList();
             ViewBag.item = Items;
 
 
@@ -161,7 +162,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
 
             return View();
             }
-
+        // shows details of specific song when selected in the songs page 
         public IActionResult Songsspecific()
         {
             var playlistsdes = HttpContext.Session.GetString("Playlistadd");
@@ -193,7 +194,7 @@ namespace Jukebox_MPA_ASP.NET.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
+        // seeds database data 
         private void DataSeed()
         {
             try
